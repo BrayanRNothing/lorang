@@ -1,0 +1,58 @@
+import fotopro from "../pics/fotopro.jpeg";
+
+export const products = [
+  {
+    id: 1,
+    title: "Rodamientos Lorang",
+    description: "ABC 9 clasic,",
+    details: "Recubiertos en dioxicod de caerbono negro",
+    image: fotopro,
+    price: 299,
+    category: "rodamientos",
+  },
+  {
+    id: 2,
+    title: "Tabla Pro",
+    description: "Tabla profesional de maple canadiense.",
+    details: "8.0 pulgadas, ideal para street.",
+    image: fotopro,
+    price: 1200,
+    category: "tablas",
+  },
+  {
+    id: 3,
+    title: "Camisa Lorang",
+    description: "Camisa oversize con logo bordado.",
+    details: "100% algodón, varias tallas.",
+    image: fotopro,
+    price: 350,
+    category: "camisas",
+  },
+  {
+    id: 4,
+    title: "Sticker Pack",
+    description: "Paquete de 10 stickers exclusivos.",
+    details: "Vinil resistente al agua.",
+    image: fotopro,
+    price: 80,
+    category: "stickers",
+  },
+  {
+    id: 5,
+    title: "Producto 2",
+    description: "Descripción del producto 2.",
+    details: "Detalles del producto 2.",
+    image: fotopro,
+    price: 200,
+    category: "categoria2",
+  },
+  {
+    id: 6,
+    title: "Producto 2",
+    description: "Descripción del producto 2.",
+    details: "Detalles del producto 2.",
+    image: fotopro,
+    price: 200,
+    category: "categoria2",
+  },
+];
