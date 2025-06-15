@@ -48,22 +48,5 @@ export const products = [
     price: 400,
     category: "Rodamientos",
   },
-  {
-    id: 5,
-    title: "Producto 2",
-    description: "Descripción del producto 2.",
-    details: "Detalles del producto 2.",
-    image: fotopro,
-    price: 200,
-    category: "categoria2",
-  },
-  {
-    id: 6,
-    title: "Producto 2",
-    description: "Descripción del producto 2.",
-    details: "Detalles del producto 2.",
-    image: fotopro,
-    price: 200,
-    category: "categoria2",
-  },
+  
 ];

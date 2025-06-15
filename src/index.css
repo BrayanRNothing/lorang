@@ -56,7 +56,7 @@ html, body, #root {
     100% { transform: rotate(720deg); }
   }
   .animate-spin-once {
-    animation: spin-once 4s cubic-bezier(0.4,0,0.2,1) 1;
+    animation: spin-once 1s cubic-bezier(0.4,0,0.2,1) 1;
   }
   @keyframes fade-in-logo {
     from { opacity: 0; transform: translateX(-20px); }

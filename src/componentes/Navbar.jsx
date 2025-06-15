@@ -13,6 +13,8 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Línea 15
   const empresaRef = useRef();
   const location = useLocation();
+  // Estado para controlar la animación del logo
+  const [logoSpin, setLogoSpin] = useState(false);
 
   // Efecto para ocultar navbar al hacer scroll
   useEffect(() => {
@@ -47,6 +49,13 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Efecto para girar el logo cada vez que cambia la ruta
+  useEffect(() => {
+    setLogoSpin(true);
+    const timeout = setTimeout(() => setLogoSpin(false), 1000); // Duración igual a la animación
+    return () => clearTimeout(timeout);
+  }, [location.pathname]);
+
   // Calcular total de productos (sumando cantidades)
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -62,7 +71,7 @@ export default function Navbar() {
             <img
               src={logoo}
               alt="logo"
-              className={`object-contain w-10 h-10 transition-transform duration-700 ease-out animate-spin-once`}
+              className={`object-contain w-10 h-10 transition-transform duration-700 ease-out ${logoSpin ? 'animate-spin-once' : ''}`}
               style={{ animationDelay: '0.2s' }}
             />
             <span className="ml-2 text-lg font-bold tracking-wide text-white animate-fade-in-logo" style={{ animationDelay: '0.7s' }}>
@@ -187,7 +196,7 @@ export default function Navbar() {
               </div>
               <a
                 className="w-full mt-2 btn btn-success"
-                href={`https://wa.me/52811918817118?text=${encodeURIComponent(
+                href={`https://wa.me/528119817118?text=${encodeURIComponent(
                   `¡Hola! Quiero comprar:\n\n${cart
                     .map((item, i) => `${i + 1}. ${item.title} x${item.quantity} - $${item.price * item.quantity}`)
                     .join("\n")}\n\nTotal: $${totalPrice}`

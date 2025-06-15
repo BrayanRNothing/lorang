@@ -94,7 +94,11 @@ export default function ProductView() {
                     <div className="flex flex-col w-full gap-3 mt-5">
                         <button 
                             className="w-full btn btn-secondary btn-lg"
-                            onClick={() => alert(`Compraste ${product.title} por $${product.price}`)}>
+                            onClick={() => {
+                                const msg = `¡Hola! Quiero comprar:\n\n1. ${product.title} x1 - $${product.price}\n\nTotal: $${product.price}`;
+                                window.open(`https://wa.me/528119817118?text=${encodeURIComponent(msg)}`, '_blank');
+                            }}
+                        >
                         Comprar
                         </button>
 

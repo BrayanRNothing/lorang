@@ -2,6 +2,11 @@ import f1 from "../pics/set1/f1.jpeg";
 import persona1 from "../pics/persona1.jpeg";
 import persona2 from "../pics/persona2.jpeg";
 import persona3 from "../pics/persona3.jpeg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 export default function Section2() {
   return (
@@ -25,23 +30,26 @@ export default function Section2() {
         
       </div>
 
-      {/* Lado derecho: cuadrícula de imágenes con efecto */}
-      <div className="grid w-full grid-cols-2 grid-rows-2 gap-6 p-8 md:w-1/2">
-        {[persona1, persona2, persona3, f1].map((img, i) => (
-          <div
-            key={i}
-            className="relative overflow-hidden border-2 shadow-xl border-neutral-950 group rounded-xl bg-neutral-900"
-          >
-            <img
-              src={img}
-              alt={`Skater ${i + 1}`}
-              className="object-cover w-full h-40 transition-transform duration-500 rounded-lg md:h-64 group-hover:scale-105 bg-neutral-800"
-              onError={e => { e.target.onerror=null; e.target.src='https://placehold.co/300x200?text=No+Image'; }}
-            />
-            <div className="absolute inset-0 transition-all duration-500 bg-black bg-opacity-0 group-hover:bg-opacity-30" />
-            {/* Puedes agregar nombre o frase aquí si quieres */}
-          </div>
-        ))}
+      {/* Lado derecho: cuadrícula de imágenes con efecto */} 
+      <div className="w-full grid-rows-1 px-10 rounded md:px-0 md:w-1/4 rounded-box carousel md:top-20 ">
+          <Swiper
+                         modules={[Autoplay,  Pagination]}
+                         autoplay={{ delay: 3000 }}
+                         pagination={{ clickable: true }}
+                         loop={true}
+                         className="w-full"
+                     >
+                         <SwiperSlide>
+                             <img src={persona1} className="w-full " alt="foto" />
+                         </SwiperSlide>
+                         <SwiperSlide>
+                          <img src={persona2} className="w-full  alt=foto2" />
+                         </SwiperSlide>
+                         <SwiperSlide>
+                          <img src={persona3} className="w-full  alt=foto2" />
+                         </SwiperSlide>
+                         
+                     </Swiper>
       </div>
     </section>
   );

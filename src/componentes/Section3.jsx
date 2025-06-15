@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Footer from "./Footer";
 
 export default function Section3() {
@@ -13,12 +14,12 @@ export default function Section3() {
           ¡Queremos ayudarte a encontrar lo que buscas!
         </p>
         <div className="flex flex-col items-center justify-center w-full max-w-md gap-4 mb-12 md:flex-row">
-          <a
-            href="/Catalogo"
+          <Link
+            to="/Catalogo"
             className="w-full transition-transform shadow-lg btn btn-primary btn-lg md:w-auto hover:scale-105"
           >
             Ver Catálogo
-          </a>
+          </Link>
           <a
             href="/Contacto"
             className="w-full transition-transform shadow-lg btn btn-outline btn-lg md:w-auto hover:scale-105"
