@@ -58,7 +58,7 @@ export default function Catalogo() {
       </div>
 
       {/* Grid de productos */}
-      <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 mx-auto max-w-7xl sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filteredProducts.length === 0 && (
           <div className="py-16 text-center col-span-full text-neutral-400">
             No se encontraron productos.
@@ -67,7 +67,8 @@ export default function Catalogo() {
         {filteredProducts.map((product) => (
           <div
             key={product.id}
-            className="flex flex-col overflow-hidden transition-colors border shadow-lg group bg-neutral-900 border-neutral-800 hover:border-blue-500"
+            className="flex flex-col overflow-hidden transition-colors border shadow-lg group bg-neutral-900 border-neutral-800 hover:border-blue-500 rounded-lg min-h-[200px] max-w-[180px] mx-auto
+            md:min-h-[270px] md:max-w-none md:p-0 md:rounded-xl"
           >
             <div className="relative w-full aspect-[4/3] bg-neutral-800 overflow-hidden">
               <img
@@ -75,17 +76,17 @@ export default function Catalogo() {
                 alt={product.title}
                 className="object-cover w-full h-full"
               />
-              <span className="absolute px-3 py-1 text-sm font-bold text-white bg-blue-600 rounded shadow top-2 right-2">
+              <span className="absolute px-2 py-1 text-xs font-bold text-white bg-blue-600 rounded shadow top-2 right-2 md:px-3 md:py-1 md:text-sm">
                 ${product.price}
               </span>
             </div>
-            <div className="flex flex-col flex-1 gap-2 p-4">
-              <h2 className="text-lg font-bold text-white truncate">{product.title}</h2>
-              <p className="text-sm text-neutral-400 line-clamp-2">{product.description}</p>
-              <div className="flex gap-2 mt-auto">
+            <div className="flex flex-col flex-1 gap-1 p-2 md:gap-2 md:p-4">
+              <h2 className="text-xs font-bold text-white truncate md:text-lg">{product.title}</h2>
+              <p className="text-[10px] text-neutral-400 line-clamp-2 md:text-sm">{product.description}</p>
+              <div className="flex gap-1 mt-auto md:gap-2">
                 <Link
                   to={`/producto/${product.id}`}
-                  className="flex-1 btn btn-primary btn-sm"
+                  className="flex-1 btn btn-primary btn-xs md:btn-sm"
                 >
                   Ver Más
                 </Link>

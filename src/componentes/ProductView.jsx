@@ -55,7 +55,7 @@ export default function ProductView() {
                         <p className="mt-2 text-sm text-neutral-400">{product.details}</p>
                     </div>
                     <div className="flex items-center gap-2 mt-3 mb-2">
-                        <span className="text-xs font-semibold text-blue-400">Garantía Mercado Pago</span>
+                        <span className="text-xs font-semibold text-blue-400">Garantía en compras</span>
                         <span className="text-xs text-neutral-500">| Compra protegida</span>
                     </div>
                     <div className="flex flex-wrap gap-2 mb-2 ">
@@ -78,7 +78,7 @@ export default function ProductView() {
                             </svg>
                         </span>
                         <span className="text-sm font-semibold text-green-400">Envío gratis</span>
-                        <span className="text-xs text-neutral-400">(a todo México)</span>
+                        <span className="text-xs text-neutral-400">(a todo Nuevo Leon)</span>
                     </div>
                     <div>
                         <span className="text-xs text-neutral-400">Recíbelo entre <span className="font-semibold text-white">2 y 5 días</span></span>
@@ -129,7 +129,7 @@ export default function ProductView() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                     </span>
-                    <span className="text-sm text-neutral-300">Compra protegida con Mercado Pago</span>
+                    <span className="text-sm text-neutral-300">Compra protegida con Mercado Pago o Transacciones</span>
                 </div>
                 <div className="flex items-center flex-1 gap-3 p-4 border rounded-lg bg-neutral-900 border-neutral-800">
                     <span className="text-blue-400">

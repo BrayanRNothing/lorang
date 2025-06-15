@@ -21,7 +21,7 @@ export default function App() {
         <Navbar />
       </header>
      
-      <main className="pt-[2.875rem]">
+      <main className=" bg-amber-400">
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/Catalogo" element={<Catalogo />} />

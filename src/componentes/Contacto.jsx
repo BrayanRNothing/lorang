@@ -1,11 +1,11 @@
 export default function Contacto() {
   return (
-    <section className="flex flex-col items-center w-full min-h-full px-0 py-0 bg-neutral-950">
+    <section className="flex flex-col md:flex-row items-stretch justify-center w-full min-h-[calc(100vh-2.875rem)] bg-neutral-950">
       {/* Main grid */}
-      <div className="flex flex-1 w-full max-w-6xl mx-auto border-neutral-800 md:flex-row md:divide-x divide-neutral-800">
+      <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto border-neutral-800 md:divide-x divide-neutral-800">
         {/* Formulario */}
-        <div className="flex flex-col justify-center flex-1 px-8 py-16">
-          <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col justify-center flex-1 px-4 py-8 md:px-8 md:py-16">
+          <div className="flex flex-col items-center justify-center min-h-full">
             <h2 className="w-full mb-8 text-3xl font-bold text-center text-white">Envíanos un mensaje</h2>
             <form className="flex flex-col w-full max-w-sm gap-6">
               <div className="flex w-full gap-4">
@@ -45,8 +45,8 @@ export default function Contacto() {
         </div>
 
         {/* Datos de contacto y redes */}
-        <div className="flex flex-col justify-center flex-1 px-8 py-16">
-          <div className="flex flex-col items-center justify-center h-full">
+        <div className="flex flex-col justify-center flex-1 px-4 py-8 md:px-8 md:py-16 border-t border-neutral-800 md:border-t-0">
+          <div className="flex flex-col items-center justify-center min-h-full">
             <h2 className="w-full mb-8 text-3xl font-bold text-center text-white">Datos de contacto</h2>
             <ul className="w-full max-w-sm mb-10 space-y-5 text-neutral-300">
               <li className="flex items-center gap-3">
