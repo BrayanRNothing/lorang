@@ -1,8 +1,9 @@
-import Estructura from "../pics/dddd/Estructura.jpeg"
-import playera from "../pics/dddd/playera.jpeg"
-import producto1 from "../pics/dddd/producto1.jpeg"
-import tienda from "../pics/dddd/tienda.jpeg"
-import logoo from "../pics/logoo.png"
+import estructura from "../pics/xdxd/estructura.jpeg";
+import playera from "../pics/dddd/playera.jpeg";
+import producto1 from "../pics/dddd/producto1.jpeg";
+import tienda from "../pics/dddd/tienda.jpeg";
+import logoo from "../pics/logoo.png";
+import fotopro from "../pics/fotopro.jpeg";
 
 export default function Empresa() {
   return (
@@ -85,17 +86,13 @@ export default function Empresa() {
             En Lorang, nuestra visión es convertirnos en una marca líder en el mercado de rodamientos y accesorios para skaters, tanto a nivel nacional como internacional. Nos enfocamos en la calidad, la innovación y el apoyo a la comunidad, buscando ser un aliado de talentos mexicanos y brindar oportunidades a skaters emergentes para que alcancen su máximo potencial.
           </p>
         </div>
-        <img
-          src="/src/pics/vision.jpg"
-          alt="Visión Lorang"
-          className="object-cover w-full max-w-md border-2 shadow-xl rounded-2xl border-neutral-800"
-        />
+       
       </div>
 
       {/* Sección 4: Estructura de un rodamiento */}
       <div className="flex flex-col items-center w-full max-w-5xl gap-10 px-4 py-16 md:flex-row">
         <img
-          src={Estructura}
+          src={estructura}
           alt="Estructura de un rodamiento"
           className="object-contain w-full max-w-md border-2 shadow-xl rounded-2xl border-neutral-800 bg-neutral-900"
         />
@@ -130,7 +127,7 @@ export default function Empresa() {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="flex flex-col items-center p-4 border shadow-lg bg-neutral-900 border-neutral-800 rounded-xl">
             <img
-              src="/src/pics/diseno1.jpg"
+              src={fotopro}
               alt="Diseño 1"
               className="object-cover w-full h-48 mb-3 rounded-lg"
             />
@@ -139,7 +136,7 @@ export default function Empresa() {
           </div>
           <div className="flex flex-col items-center p-4 border shadow-lg bg-neutral-900 border-neutral-800 rounded-xl">
             <img
-              src="/src/pics/diseno2.jpg"
+              src={fotopro}
               alt="Diseño 2"
               className="object-cover w-full h-48 mb-3 rounded-lg"
             />
@@ -148,7 +145,7 @@ export default function Empresa() {
           </div>
           <div className="flex flex-col items-center p-4 border shadow-lg bg-neutral-900 border-neutral-800 rounded-xl">
             <img
-              src="/src/pics/diseno3.jpg"
+              src={fotopro}
               alt="Diseño 3"
               className="object-cover w-full h-48 mb-3 rounded-lg"
             />

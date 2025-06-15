@@ -49,3 +49,19 @@ html, body, #root {
   .animate-slide-down {
     animation: slideDown 0.88s cubic-bezier(0.4,0,0.2,1);
   }
+
+  @keyframes spin-once {
+    0% { transform: rotate(0deg); }
+    80% { transform: rotate(720deg); }
+    100% { transform: rotate(720deg); }
+  }
+  .animate-spin-once {
+    animation: spin-once 4s cubic-bezier(0.4,0,0.2,1) 1;
+  }
+  @keyframes fade-in-logo {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .animate-fade-in-logo {
+    animation: fade-in-logo 0.7s 0.7s both;
+  }

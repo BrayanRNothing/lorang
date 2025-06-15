@@ -27,8 +27,8 @@ export default function Section3() {
           </a>
         </div>
         {/* Nueva sección de confianza y beneficios */}
-        <div className="grid w-full max-w-4xl grid-cols-1 gap-6 mt-8 md:grid-cols-3">
-          <div className="flex flex-col items-center p-6 border rounded-lg bg-neutral-900 border-neutral-800">
+        <div className="grid w-full max-w-4xl grid-cols-3 gap-3 mt-8 mb-0">
+          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
             <span className="mb-2 text-blue-400">
               <svg
                 className="w-8 h-8"
@@ -45,11 +45,11 @@ export default function Section3() {
               </svg>
             </span>
             <span className="mb-1 font-bold text-white">Compra protegida</span>
-            <span className="text-sm text-center text-neutral-400">
+            <span className="hidden text-sm text-center text-neutral-400 md:block">
               Tus pagos y datos están seguros con Mercado Pago.
             </span>
           </div>
-          <div className="flex flex-col items-center p-6 border rounded-lg bg-neutral-900 border-neutral-800">
+          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
             <span className="mb-2 text-green-400">
               <svg
                 className="w-8 h-8"
@@ -69,11 +69,11 @@ export default function Section3() {
             <span className="mb-1 font-bold text-white">
               Envío rápido y gratis
             </span>
-            <span className="text-sm text-center text-neutral-400">
+            <span className="hidden text-sm text-center text-neutral-400 md:block">
               Recibe tus productos en la puerta de tu casa sin costo extra.
             </span>
           </div>
-          <div className="flex flex-col items-center p-6 border rounded-lg bg-neutral-900 border-neutral-800">
+          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
             <span className="mb-2 text-yellow-400">
               <svg
                 className="w-8 h-8"
@@ -92,7 +92,7 @@ export default function Section3() {
             <span className="mb-1 font-bold text-white">
               Atención personalizada
             </span>
-            <span className="text-sm text-center text-neutral-400">
+            <span className="hidden text-sm text-center text-neutral-400 md:block">
               ¿Dudas? Nuestro equipo te ayuda por WhatsApp o correo.
             </span>
           </div>

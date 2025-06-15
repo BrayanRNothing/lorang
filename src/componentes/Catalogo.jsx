@@ -74,7 +74,7 @@ export default function Catalogo() {
               <img
                 src={product.image}
                 alt={product.title}
-                className="object-cover w-full h-full"
+                className="object-contain w-full h-full mx-auto"
               />
               <span className="absolute px-2 py-1 text-xs font-bold text-white bg-blue-600 rounded shadow top-2 right-2 md:px-3 md:py-1 md:text-sm">
                 ${product.price}

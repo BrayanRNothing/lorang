@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "./CarContext";
+import logoo from "../pics/logoo.png"
 
 export default function Navbar() {
   const { cart, removeFromCart } = useCart();
@@ -58,8 +59,15 @@ export default function Navbar() {
         {/* Logo + Lorang alineado a la izquierda */}
         <div className="flex items-center flex-shrink-0">
           <a href="/" className="flex items-center text-xl font-semibold">
-            <img src="/src/pics/logoo.png" alt="logo" className="object-contain w-10 h-10" />
-            <span className="ml-2 text-lg font-bold tracking-wide text-white">Lorang</span>
+            <img
+              src={logoo}
+              alt="logo"
+              className={`object-contain w-10 h-10 transition-transform duration-700 ease-out animate-spin-once`}
+              style={{ animationDelay: '0.2s' }}
+            />
+            <span className="ml-2 text-lg font-bold tracking-wide text-white animate-fade-in-logo" style={{ animationDelay: '0.7s' }}>
+              Lorang
+            </span>
           </a>
         </div>
         {/* Menú PC (oculto en móvil) */}
@@ -179,7 +187,7 @@ export default function Navbar() {
               </div>
               <a
                 className="w-full mt-2 btn btn-success"
-                href={`https://wa.me/528112169211?text=${encodeURIComponent(
+                href={`https://wa.me/52811918817118?text=${encodeURIComponent(
                   `¡Hola! Quiero comprar:\n\n${cart
                     .map((item, i) => `${i + 1}. ${item.title} x${item.quantity} - $${item.price * item.quantity}`)
                     .join("\n")}\n\nTotal: $${totalPrice}`
@@ -204,3 +212,22 @@ export default function Navbar() {
     </nav>
   );
 }
+
+/*
+Agrega las siguientes animaciones a tu CSS global (index.css o tailwind.config.js):
+@keyframes spin-once {
+  0% { transform: rotate(0deg); }
+  80% { transform: rotate(720deg); }
+  100% { transform: rotate(720deg); }
+}
+.animate-spin-once {
+  animation: spin-once 1s cubic-bezier(0.4,0,0.2,1) 1;
+}
+@keyframes fade-in-logo {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-fade-in-logo {
+  animation: fade-in-logo 0.7s 0.7s both;
+}
+*/

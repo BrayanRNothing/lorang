@@ -35,7 +35,8 @@ export default function Section2() {
             <img
               src={img}
               alt={`Skater ${i + 1}`}
-              className="object-cover w-full h-56 transition-transform duration-500 md:h-64 group-hover:scale-105"
+              className="object-cover w-full h-40 transition-transform duration-500 rounded-lg md:h-64 group-hover:scale-105 bg-neutral-800"
+              onError={e => { e.target.onerror=null; e.target.src='https://placehold.co/300x200?text=No+Image'; }}
             />
             <div className="absolute inset-0 transition-all duration-500 bg-black bg-opacity-0 group-hover:bg-opacity-30" />
             {/* Puedes agregar nombre o frase aquí si quieres */}
