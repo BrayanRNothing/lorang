@@ -1,14 +1,12 @@
 import { useState } from 'react';
 
-// --- Componente Contenedor de Página ---
-// Movido fuera para evitar que se re-cree en cada render y cause pérdida de foco.
+// Contenedor para centrar contenido
 const PageContainer = ({ children }) => (
   <div className="flex items-center justify-center min-h-screen p-4 bg-neutral-950">
     {children}
   </div>
 );
 
-// --- Componente del Formulario Principal ---
 function AdminForm() {
   const [imagen, setImagen] = useState(null);
   const [nombre, setNombre] = useState('');
@@ -32,28 +30,35 @@ function AdminForm() {
     setCargando(true);
 
     try {
-      // Simulación de la subida (reemplazar con tu lógica de backend)
-      // const formData = new FormData();
-      // formData.append('imagen', imagen);
-      // const uploadRes = await fetch('http://localhost:3000/api/upload', { method: 'POST', body: formData });
-      // if (!uploadRes.ok) throw new Error('Error al subir la imagen');
-      // const { url } = await uploadRes.json();
-      
-      // Usamos una URL de placeholder mientras tanto
-      const url = URL.createObjectURL(imagen);
+      // 1. Subir imagen al backend (que la manda a Cloudinary)
+      const formData = new FormData();
+      formData.append('imagen', imagen);
 
-      const producto = { nombre, descripcion, precio, etiqueta, imagen: url };
-      console.log("Producto a enviar:", producto);
+      const uploadRes = await fetch('http://localhost:3000/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
 
-      // Simulación del envío del producto
-      // const res = await fetch('http://localhost:3000/api/products', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(producto),
-      // });
-      // if (!res.ok) throw new Error('Error al agregar el producto');
+      if (!uploadRes.ok) throw new Error('Error al subir la imagen');
 
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simular delay de red
+      const { url } = await uploadRes.json();
+
+      // 2. Crear nuevo producto con URL de imagen
+      const producto = {
+        nombre,
+        descripcion,
+        precio,
+        category: etiqueta,
+        imagen: url,
+      };
+
+      const res = await fetch('http://localhost:3000/api/products', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(producto),
+      });
+
+      if (!res.ok) throw new Error('Error al agregar el producto');
 
       setExito('Producto agregado correctamente');
       setNombre('');
@@ -78,7 +83,6 @@ function AdminForm() {
         Panel de Administrador
       </h2>
 
-      {/* --- Mensajes de Estado --- */}
       {error && (
         <div className="p-3 text-center text-red-300 bg-red-900/20 border border-red-500/30 rounded-lg">
           {error}
@@ -90,7 +94,6 @@ function AdminForm() {
         </div>
       )}
 
-      {/* --- Campos del Formulario --- */}
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <label className="block col-span-1 md:col-span-2">
           <span className="font-medium text-neutral-300">Imagen del Producto</span>
@@ -154,11 +157,10 @@ function AdminForm() {
         </label>
       </div>
 
-      {/* --- Botón de Envío --- */}
       <button
         type="submit"
-        className="w-full px-6 py-3 text-lg font-bold text-white transition-all duration-300 bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-wait"
         disabled={cargando}
+        className="w-full px-6 py-3 text-lg font-bold text-white transition-all duration-300 bg-blue-600 rounded-xl hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 focus-visible:ring-blue-500 disabled:opacity-50 disabled:cursor-wait"
       >
         {cargando ? 'Agregando Producto...' : 'Agregar Producto'}
       </button>
@@ -166,7 +168,6 @@ function AdminForm() {
   );
 }
 
-// --- Componente de Contraseña ---
 export default function AdminProtegido() {
   const [autorizado, setAutorizado] = useState(false);
   const [clave, setClave] = useState('');
@@ -196,11 +197,13 @@ export default function AdminProtegido() {
               type="password"
               placeholder="••••••••"
               value={clave}
-              onChange={e => {
+              onChange={(e) => {
                 setClave(e.target.value);
                 setError(false);
               }}
-              className={`w-full px-4 py-2 mt-2 text-white bg-neutral-800 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : 'border-neutral-700'}`}
+              className={`w-full px-4 py-2 mt-2 text-white bg-neutral-800 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                error ? 'border-red-500' : 'border-neutral-700'
+              }`}
             />
           </label>
           {error && <p className="text-sm text-center text-red-400">Contraseña incorrecta. Inténtalo de nuevo.</p>}

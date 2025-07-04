@@ -20,6 +20,7 @@ router.post('/', (req, res) => {
     descripcion: req.body.descripcion,
     precio: req.body.precio,
     imagen: req.body.imagen,
+    category: req.body.category || 'all'
   };
 
   productos.push(nuevoProducto);
