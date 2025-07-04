@@ -1,3 +1,5 @@
+import productRoutes from './routes/products.js';
+
 import 'dotenv/config';
 import express from 'express';
 import cloudinary from './cloudinary.js';
@@ -6,6 +8,7 @@ import path from 'path';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+app.use('/api/products', productRoutes);
 
 app.use(express.json());
 

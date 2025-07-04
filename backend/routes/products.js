@@ -1,19 +1,30 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+import { Router } from 'express';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const router = express.Router();
+const router = Router();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const filePath = path.join(__dirname, '../data/products.json');
 
-// GET /api/products - Obtener todos los productos
 router.get('/', (req, res) => {
-  const productsPath = path.join(__dirname, '..', 'data', 'products.json');
-  try {
-    const data = fs.readFileSync(productsPath, 'utf-8');
-    const products = JSON.parse(data);
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ error: 'No se pudieron cargar los productos.' });
-  }
+  const productos = JSON.parse(fs.readFileSync(filePath));
+  res.json(productos);
 });
 
-module.exports = router;
+router.post('/', (req, res) => {
+  const productos = JSON.parse(fs.readFileSync(filePath));
+  const nuevoProducto = {
+    id: Date.now(),
+    nombre: req.body.nombre,
+    descripcion: req.body.descripcion,
+    precio: req.body.precio,
+    imagen: req.body.imagen,
+  };
+
+  productos.push(nuevoProducto);
+  fs.writeFileSync(filePath, JSON.stringify(productos, null, 2));
+  res.status(201).json(nuevoProducto);
+});
+
+export default router;

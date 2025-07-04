@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { products } from "./productosData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const categories = [
   { value: "all", label: "Todas" },
@@ -12,18 +11,31 @@ const categories = [
 ];
 
 export default function Catalogo() {
+  const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
+  useEffect(() => {
+    fetch("http://localhost:3000/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data))
+      .catch((err) => {
+        console.error("Error al cargar productos:", err);
+      });
+  }, []);
+
   // Filtro por búsqueda y categoría
-  const filteredProducts = products.filter(
-    (product) =>
-      (category === "all" || product.category === category) &&
-      (
-        product.title.toLowerCase().includes(search.toLowerCase()) ||
-        product.description.toLowerCase().includes(search.toLowerCase())
-      )
-  );
+  const filteredProducts = products.filter((product) => {
+    const nombre = product.title || product.nombre || "";
+    const descripcion = product.description || product.descripcion || "";
+    const categoria = product.category || "all";
+
+    return (
+      (category === "all" || categoria === category) &&
+      (nombre.toLowerCase().includes(search.toLowerCase()) ||
+        descripcion.toLowerCase().includes(search.toLowerCase()))
+    );
+  });
 
   return (
     <section className="min-h-screen px-2 py-8 bg-neutral-950">
@@ -31,7 +43,7 @@ export default function Catalogo() {
       <div className="flex flex-col mx-auto mb-8 gap-7 max-w-7xl md:flex-row md:items-end">
         <div className="flex-1">
           <label className="block mb-2 text-lg font-semibold text-white">
-           {/*texto no definido */}
+            Buscar producto
           </label>
           <input
             type="text"
@@ -41,9 +53,9 @@ export default function Catalogo() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="w-full md:w-74">
+        <div className="w-full md:w-72">
           <label className="block mb-2 text-lg font-semibold text-white">
-            {/*texto no definido */}
+            Categoría
           </label>
           <select
             className="w-full text-white select select-bordered bg-neutral-900 border-neutral-700"
@@ -51,7 +63,9 @@ export default function Catalogo() {
             onChange={(e) => setCategory(e.target.value)}
           >
             {categories.map((cat) => (
-              <option key={cat.value} value={cat.value}>{cat.label}</option>
+              <option key={cat.value} value={cat.value}>
+                {cat.label}
+              </option>
             ))}
           </select>
         </div>
@@ -72,17 +86,21 @@ export default function Catalogo() {
           >
             <div className="relative w-full aspect-[4/3] bg-neutral-800 overflow-hidden">
               <img
-                src={product.image}
-                alt={product.title}
+                src={product.image || product.imagen}
+                alt={product.title || product.nombre}
                 className="object-contain w-full h-full mx-auto"
               />
               <span className="absolute px-2 py-1 text-xs font-bold text-white bg-blue-600 rounded shadow top-2 right-2 md:px-3 md:py-1 md:text-sm">
-                ${product.price}
+                ${product.price || product.precio}
               </span>
             </div>
             <div className="flex flex-col flex-1 gap-1 p-2 md:gap-2 md:p-4">
-              <h2 className="text-xs font-bold text-white truncate md:text-lg">{product.title}</h2>
-              <p className="text-[10px] text-neutral-400 line-clamp-2 md:text-sm">{product.description}</p>
+              <h2 className="text-xs font-bold text-white truncate md:text-lg">
+                {product.title || product.nombre}
+              </h2>
+              <p className="text-[10px] text-neutral-400 line-clamp-2 md:text-sm">
+                {product.description || product.descripcion}
+              </p>
               <div className="flex gap-1 mt-auto md:gap-2">
                 <Link
                   to={`/producto/${product.id}`}
