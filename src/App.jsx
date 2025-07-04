@@ -10,6 +10,7 @@ import Contacto from './componentes/Contacto'
 import ProductView from './componentes/ProductView'
 import Empresa from './componentes/Empresa'
 import { CarProvider } from './componentes/CarContext'
+import AdminProtegido from './componentes/Admin'
 
 
 
@@ -28,6 +29,7 @@ export default function App() {
          <Route path="/Contacto" element={<Contacto />} />
           <Route path="/producto/:id" element={<ProductView />} />
           <Route path="/Empresa" element={<Empresa />} />
+          <Route path="/admin" element={<AdminProtegido />} />
           {/* Aquí puedes agregar más rutas si es necesario */}
         </Routes>
       </main>

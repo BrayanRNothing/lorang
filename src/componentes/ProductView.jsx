@@ -50,7 +50,7 @@ export default function ProductView() {
                             o 6x <span className="font-bold text-green-400">${cuotas}</span> sin interés
                         </span>
                     </div>
-                    <div className="w-full mb-6 border h-1/2">
+                    <div className="w-full mb-6 h-1/2">
                         <p className="text-base text-neutral-300">{product.description}</p>
                         <p className="mt-2 text-sm text-neutral-400">{product.details}</p>
                     </div>
