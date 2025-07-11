@@ -38,7 +38,7 @@ function AdminForm({
   return (
     <div className="space-y-12">
       <header>
-        <h1 className="text-4xl font-bold tracking-tight">Panel de Administrador</h1>
+        <h1 className="text-4xl font-bold tracking-tight">Bienvenido Angel</h1>
         <p className="mt-2 text-neutral-400">Agrega, edita o elimina productos de la tienda.</p>
       </header>
 
@@ -127,6 +127,12 @@ export default function AdminProtegido() {
   const [error, setError] = useState('');
   const [exito, setExito] = useState('');
 
+  // Verificar autorización al cargar
+  useEffect(() => {
+    const autorizadoLS = localStorage.getItem('autorizado');
+    if (autorizadoLS === 'true') setAutorizado(true);
+  }, []);
+
   // Cargar productos al autorizar
   useEffect(() => {
     if (autorizado) {
@@ -142,6 +148,7 @@ export default function AdminProtegido() {
     e.preventDefault();
     if (clave === 'lorang200') {
       setAutorizado(true);
+      localStorage.setItem('autorizado', 'true');
     } else {
       setLoginError(true);
       setClave('');
@@ -211,8 +218,8 @@ export default function AdminProtegido() {
   if (!autorizado) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-neutral-950">
-        <div className="w-full max-w-md mx-auto">
-          <form onSubmit={handleLogin} className="p-8 space-y-6 bg-neutral-900 border border-neutral-800 rounded-2xl">
+        <div className="flex items-center justify-center w-full" style={{ minHeight: '80vh' }}>
+          <form onSubmit={handleLogin} className="p-8 space-y-6 bg-neutral-900 border border-neutral-800 rounded-2xl w-full max-w-md mx-auto">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-white">Acceso de Administrador</h2>
               <p className="mt-2 text-neutral-400">Ingresa la contraseña para continuar.</p>

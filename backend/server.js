@@ -4,12 +4,29 @@ import multer from 'multer';
 import cloudinary from './cloudinary.js';
 import fs from 'fs';
 import path from 'path';
-import productsRouter from './routes/products.js'; // Asegúrate de este import
+import productsRouter from './routes/products.js';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import mongoose from 'mongoose'; // Importar mongoose
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Conexión a MongoDB Atlas
+const DB_URI = 'mongodb+srv://lorang:lorang200@clusterlorang.djbinwk.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLorang';
+
+mongoose.connect(DB_URI)
+  .then(() => {
+    console.log('Conectado a MongoDB Atlas');
+    // Iniciar el servidor solo si la conexión a la DB es exitosa
+    app.listen(PORT, () => {
+      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error('Error al conectar a MongoDB Atlas:', err);
+    process.exit(1); // Salir del proceso si no se puede conectar a la DB
+  });
 
 // Middleware
 app.use(cors());
@@ -35,6 +52,3 @@ app.post('/api/upload', upload.single('imagen'), async (req, res) => {
 // Ruta para productos
 app.use('/api/products', productsRouter);
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});

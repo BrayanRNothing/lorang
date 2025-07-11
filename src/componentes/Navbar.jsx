@@ -136,7 +136,7 @@ export default function Navbar() {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b bg-neutral-900">
-          <h2 className="text-xl font-bold">Carrito</h2>
+          <h2 className="text-xl text-white font-bold ">Carrito</h2>
           <button
             className="btn btn-ghost btn-sm"
             onClick={() => setCartOpen(false)}
@@ -152,7 +152,7 @@ export default function Navbar() {
               {cart.map((item) => (
                 <li
                   key={item.id}
-                  className="flex items-center justify-between pb-1 border-b"
+                  className="flex text-white items-center justify-between pb-1 border-b"
                 >
                   <span>
                     {item.title || item.nombre}

@@ -22,12 +22,12 @@ export default function ProductView() {
     }, [id]);
 
     if (loading) {
-        return <div className="flex items-center justify-center min-h-screen text-white">Cargando...</div>;
+        return <div className="flex items-center justify-center min-h-screen text-white bg-neutral-950">Cargando...</div>;
     }
 
     if (!product) {
         return (
-            <div className="flex flex-col items-center justify-center min-h-screen text-white">
+            <div className="flex flex-col items-center justify-center min-h-screen text-white bg-neutral-950">
                 <h2 className="mb-4 text-2xl font-bold">Producto no encontrado</h2>
                 <button className="btn btn-primary" onClick={() => navigate(-1)}>
                     Volver
