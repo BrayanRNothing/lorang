@@ -11,7 +11,7 @@ export default function ProductView() {
     const [quantity, setQuantity] = useState(1);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/products`)
+        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
             .then(res => res.json())
             .then(data => {
                 const prod = data.find(p => String(p.id) === String(id));

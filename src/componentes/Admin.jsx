@@ -219,7 +219,7 @@ export default function AdminProtegido() {
     return (
       <div className="flex items-center justify-center min-h-screen bg-neutral-950">
         <div className="flex items-center justify-center w-full" style={{ minHeight: '80vh' }}>
-          <form onSubmit={handleLogin} className="p-8 space-y-6 bg-neutral-900 border border-neutral-800 rounded-2xl w-full max-w-md mx-auto">
+          <form onSubmit={handleLogin} className="space-y-6 w-full max-w-md mx-auto p-8">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-white">Acceso de Administrador</h2>
               <p className="mt-2 text-neutral-400">Ingresa la contraseña para continuar.</p>

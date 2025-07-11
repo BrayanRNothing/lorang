@@ -16,7 +16,7 @@ export default function Catalogo() {
   const [category, setCategory] = useState("all");
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/products")
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((err) => {
