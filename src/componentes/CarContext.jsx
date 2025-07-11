@@ -12,14 +12,15 @@ export function CarProvider({ children }) {
   function addToCart(product) {
     setCart((prev) => {
       const found = prev.find((item) => item.id === product.id);
+      const addQty = product.quantity || 1;
       if (found) {
         return prev.map((item) =>
           item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + addQty }
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: addQty }];
     });
   }
 
@@ -35,12 +36,18 @@ export function CarProvider({ children }) {
     );
   }
 
+  function removeAllFromCart(productId) {
+    setCart((prev) => prev.filter((item) => item.id !== productId));
+  }
+
   function clearCart() {
     setCart([]);
   }
 
   return (
-    <CarContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CarContext.Provider
+      value={{ cart, addToCart, removeFromCart, removeAllFromCart, clearCart }}
+    >
       {children}
     </CarContext.Provider>
   );

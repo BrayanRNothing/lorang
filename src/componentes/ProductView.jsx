@@ -1,15 +1,29 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useCart } from "./CarContext";
-import { products } from "./productosData";
 
 export default function ProductView() {
     const { id } = useParams();
     const navigate = useNavigate();
     const { addToCart } = useCart();
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [quantity, setQuantity] = useState(1);
 
-    const product = products.find((p) => p.id === Number(id));
-    const cuotas = Math.ceil(product?.price / 6);
-    const stock = 12; // puedes cambiarlo por producto.stock si lo tienes
+    useEffect(() => {
+        fetch(`http://localhost:3000/api/products`)
+            .then(res => res.json())
+            .then(data => {
+                const prod = data.find(p => String(p.id) === String(id));
+                setProduct(prod);
+                setLoading(false);
+            })
+            .catch(() => setLoading(false));
+    }, [id]);
+
+    if (loading) {
+        return <div className="flex items-center justify-center min-h-screen text-white">Cargando...</div>;
+    }
 
     if (!product) {
         return (
@@ -22,14 +36,17 @@ export default function ProductView() {
         );
     }
 
+    const cuotas = Math.ceil(product.price / 6);
+    const stock = 12; // puedes cambiarlo por producto.stock si lo tienes
+
     return (
         <section className="flex flex-col items-center min-h-screen px-2 py-10 bg-neutral-950">
             <div className="grid w-full max-w-6xl grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
                 {/* Columna 1: Imagen */}
                 <div className="flex flex-col items-center md:items-start">
                     <img
-                        src={product.image}
-                        alt={product.title}
+                        src={product.image || product.imagen}
+                        alt={product.title || product.nombre}
                         className="object-contain w-full max-w max-h-[420px] rounded-md shadow-lg bg-neutral-900 border border-neutral-800 "
                     />
                     <div className="flex flex-row w-full max-w-[370px] gap-2 mt-6">
@@ -43,16 +60,16 @@ export default function ProductView() {
                 </div>
                 {/* Columna 2: Nombre, descripción y precio */}
                 <div className="flex flex-col items-start justify-start w-full h-full ">
-                    <h1 className="mb-3 text-3xl font-extrabold text-white">{product.title}</h1>
+                    <h1 className="mb-3 text-3xl font-extrabold text-white">{product.title || product.nombre}</h1>
                     <div className="mb-4 ">
-                        <span className="text-4xl font-extrabold text-green-500">${product.price}</span>
+                        <span className="text-4xl font-extrabold text-green-500">${product.price || product.precio}</span>
                         <span className="ml-2 text-base text-neutral-400 align-super">
-                            o 6x <span className="font-bold text-green-400">${cuotas}</span> sin interés
+                            o 6x <span className="font-bold text-green-400">${Math.ceil((product.price || product.precio) / 6)}</span> sin interés
                         </span>
                     </div>
                     <div className="w-full mb-6 h-1/2">
-                        <p className="text-base text-neutral-300">{product.description}</p>
-                        <p className="mt-2 text-sm text-neutral-400">{product.details}</p>
+                        <p className="text-base text-neutral-300">{product.description || product.descripcion}</p>
+                        <p className="mt-2 text-sm text-neutral-400">{product.details || ''}</p>
                     </div>
                     <div className="flex items-center gap-2 mt-3 mb-2">
                         <span className="text-xs font-semibold text-blue-400">Garantía en compras</span>
@@ -91,20 +108,36 @@ export default function ProductView() {
                             <span className="px-2 py-1 text-xs rounded bg-neutral-800 text-neutral-200">Transferencia</span>
                         </div>
                     </div>
+                    <div className="flex items-center gap-3 mt-5">
+                        <button
+                            className="btn btn-outline btn-sm"
+                            onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                            disabled={quantity <= 1}
+                        >
+                            −
+                        </button>
+                        <span className="px-4 py-2 text-lg font-bold text-white bg-neutral-800 rounded-lg">{quantity}</span>
+                        <button
+                            className="btn btn-outline btn-sm"
+                            onClick={() => setQuantity(q => Math.min(stock, q + 1))}
+                            disabled={quantity >= stock}
+                        >
+                            +
+                        </button>
+                    </div>
                     <div className="flex flex-col w-full gap-3 mt-5">
                         <button 
                             className="w-full btn btn-secondary btn-lg"
                             onClick={() => {
-                                const msg = `¡Hola! Quiero comprar:\n\n1. ${product.title} x1 - $${product.price}\n\nTotal: $${product.price}`;
+                                const msg = `¡Hola! Quiero comprar:\n\n1. ${(product.title || product.nombre)} x${quantity} - $${(product.price || product.precio) * quantity}\n\nTotal: $${(product.price || product.precio) * quantity}`;
                                 window.open(`https://wa.me/528119817118?text=${encodeURIComponent(msg)}`, '_blank');
                             }}
                         >
                         Comprar
                         </button>
-
                         <button
                             className="w-full font-bold btn btn-primary btn-lg"
-                            onClick={() => addToCart(product)}
+                            onClick={() => addToCart({ ...product, quantity })}
                             disabled={stock === 0}
                         >
                             {stock === 0 ? "Sin stock" : "Agregar al carrito"}

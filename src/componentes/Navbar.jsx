@@ -4,7 +4,7 @@ import { useCart } from "./CarContext";
 import logoo from "../pics/logoo.png"
 
 export default function Navbar() {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart, addToCart, removeAllFromCart, clearCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
   const [hideNav, setHideNav] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -60,7 +60,7 @@ export default function Navbar() {
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   // Calcular total $
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = cart.reduce((acc, item) => acc + (item.price || item.precio) * item.quantity, 0);
 
   return (
     <nav className="w-full overflow-x-hidden shadow-md bg-neutral-950">
@@ -155,18 +155,33 @@ export default function Navbar() {
                   className="flex items-center justify-between pb-1 border-b"
                 >
                   <span>
-                    {item.title}
+                    {item.title || item.nombre}
                     {item.quantity > 1 && (
                       <span className="ml-2 text-xs text-neutral-400">x{item.quantity}</span>
                     )}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-primary">${item.price * item.quantity}</span>
-                    {/* Botón para quitar una unidad */}
                     <button
-                      className="btn btn-xs btn-circle btn-error"
+                      className="btn btn-xs btn-outline"
                       onClick={() => removeFromCart(item.id)}
                       title="Quitar uno"
+                    >
+                      −
+                    </button>
+                    <span className="px-2 text-lg font-bold text-white">{item.quantity}</span>
+                    <button
+                      className="btn btn-xs btn-outline"
+                      onClick={() => addToCart({ ...item, quantity: 1 })}
+                      title="Agregar uno"
+                    >
+                      +
+                    </button>
+                    <span className="font-bold text-primary">${(item.price || item.precio) * item.quantity}</span>
+                    {/* Botón para quitar todos */}
+                    <button
+                      className="btn btn-xs btn-circle btn-error"
+                      onClick={() => removeAllFromCart(item.id)}
+                      title="Quitar todos"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +213,7 @@ export default function Navbar() {
                 className="w-full mt-2 btn btn-success"
                 href={`https://wa.me/528119817118?text=${encodeURIComponent(
                   `¡Hola! Quiero comprar:\n\n${cart
-                    .map((item, i) => `${i + 1}. ${item.title} x${item.quantity} - $${item.price * item.quantity}`)
+                    .map((item, i) => `${i + 1}. ${(item.title || item.nombre)} x${item.quantity} - $${(item.price || item.precio) * item.quantity}`)
                     .join("\n")}\n\nTotal: $${totalPrice}`
                 )}`}
                 target="_blank"
