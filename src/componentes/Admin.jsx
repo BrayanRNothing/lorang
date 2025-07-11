@@ -136,7 +136,7 @@ export default function AdminProtegido() {
   // Cargar productos al autorizar
   useEffect(() => {
     if (autorizado) {
-      fetch('http://localhost:3000/api/products')
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
         .then((res) => res.json())
         .then((data) => setProductos(data))
         .catch(() => setError('No se pudieron cargar los productos.'));
@@ -161,7 +161,7 @@ export default function AdminProtegido() {
     setError('');
     setExito('');
     try {
-      const res = await fetch(`http://localhost:3000/api/products/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Error al eliminar');
       setProductos(productos.filter((p) => p.id !== id));
       setExito('Producto eliminado correctamente.');
@@ -187,7 +187,7 @@ export default function AdminProtegido() {
       const formData = new FormData();
       formData.append('imagen', imagen);
 
-      const uploadRes = await fetch('http://localhost:3000/api/upload', {
+      const uploadRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -197,7 +197,7 @@ export default function AdminProtegido() {
 
       const producto = { nombre, descripcion, precio, category: etiqueta, imagen: url };
 
-      const res = await fetch('http://localhost:3000/api/products', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(producto),

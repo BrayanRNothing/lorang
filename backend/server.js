@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Conexión a MongoDB Atlas
-const DB_URI = 'mongodb+srv://lorang:lorang200@clusterlorang.djbinwk.mongodb.net/?retryWrites=true&w=majority&appName=ClusterLorang';
+const DB_URI = process.env.MONGO_URI; // Leer la URI de la base de datos desde una variable de entorno
 
 mongoose.connect(DB_URI)
   .then(() => {
