@@ -10,22 +10,17 @@ export default function Section1() {
       {/* Desktop layout */}
       <div className="absolute hidden w-full h-screen md:block rounded-2xl">
         <div className="absolute top-0 space-y-6 text-left sm:top-12 md:top-24 left-12 md:w-1/2">
-          <h1 className="text-4xl font-bold text-gray-100 md:text-7xl">
-            <Typewriter
-              words={["LORANG.COM"]}
-              loop={false}
-              cursor
-              cursorStyle="|"
-              typeSpeed={90}
-              deleteSpeed={50}
-              delaySpeed={30000}
-            />
+          <h1
+            className="text-4xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-blue-700 to-blue-900 bg-clip-text text-transparent drop-shadow-lg mb-2"
+            style={{ fontFamily: 'Montserrat, serif', letterSpacing: '2px', textShadow: '2px 2px 8px rgba(0,0,0,0.3)' }}
+          >
+            QUIENES SOMOS
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-gray-300">
-            Desde Monterrey, traemos rodamientos de skate diseñados con la más alta calidad.
-            Están recubiertos con óxido negro, lo que los hace más resistentes y duraderos,
-            ideales para lograr <span className="font-semibold text-white">kickflips perfectos </span>
-            y un rendimiento excepcional.
+            Somos una marca de rodamientos, originaria de Monterrey N.L, y estamos enfocados
+            a crear rodamientos duraderos, para una patinada veloz y suave. Nuestros rodamientios
+            son tratados con un recubrimiento de<span className="font-semibold text-white">óxido negro</span>
+          lo que los hace mas recistentes ante los impactos y medio ambiente en l cual nos desempeñamos patinando.
           </p>
           <ScrollButton />
         </div>

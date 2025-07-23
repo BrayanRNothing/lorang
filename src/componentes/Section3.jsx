@@ -47,7 +47,7 @@ export default function Section3() {
             </span>
             <span className="mb-1 font-bold text-white">Compra protegida</span>
             <span className="hidden text-sm text-center text-neutral-400 md:block">
-              Tus pagos y datos están seguros con Mercado Pago.
+              Tus pagos y datos están seguros.
             </span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
@@ -68,10 +68,10 @@ export default function Section3() {
               </svg>
             </span>
             <span className="mb-1 font-bold text-white">
-              Envío rápido y gratis
+              Garantía de calidad
             </span>
             <span className="hidden text-sm text-center text-neutral-400 md:block">
-              Recibe tus productos en la puerta de tu casa sin costo extra.
+              Todos nuestros productos cuentan con garantía directa de fábrica.
             </span>
           </div>
           <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">

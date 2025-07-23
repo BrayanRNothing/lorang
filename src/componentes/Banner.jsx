@@ -7,21 +7,29 @@ import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import lorangvid from "../pics/lorangvid.mp4";
 
 export default function Banner() {
     return (
-        <div className="absolute flex w-20 overflow-hidden rounded-lg shadow-lg carousel rounded-box md:w-1/4 md:right-15 md:top-12">
+        <div className="absolute flex items-center justify-center right-[20px] md:right-[20px] top-0 h-[calc(100vh-51px)] w-[calc(33vw-20px)] md:w-[calc(33vw-20px)] z-40" style={{ borderRadius: '0.5rem', overflow: 'hidden' }}>
             <Swiper
-                modules={[Autoplay,  Pagination]}
+                modules={[Autoplay, Pagination]}
                 autoplay={{ delay: 3000 }}
                 pagination={{ clickable: true }}
                 loop={true}
-                className="w-full"
+                className="w-full h-full"
             >
                 <SwiperSlide>
-                    <img src={f1} className="w-full " alt="foto" />
+                    <video
+                        src={lorangvid}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full"
+                        style={{ height: '100%', objectFit: 'cover', borderRadius: '0.5rem' }}
+                    />
                 </SwiperSlide>
-                
             </Swiper>
         </div>
     );
