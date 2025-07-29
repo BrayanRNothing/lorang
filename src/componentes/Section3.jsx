@@ -1,105 +1,41 @@
-import { Link } from "react-router-dom";
-import Footer from "./Footer";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import l2Image from '../pics/l2.png'; // Importa la imagen
 
 export default function Section3() {
   return (
-    <>
-      <div className="relative flex flex-col items-center justify-center w-full min-h-[70vh] px-4 py-16 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 text-white">
-        <h2 className="mb-4 text-4xl font-extrabold text-center md:text-5xl drop-shadow-lg">
-          ¿Listo para tu próxima compra?
-        </h2>
-        <p className="max-w-2xl mb-8 text-lg text-center text-blue-100 md:text-xl">
-          Explora nuestro catálogo o contáctanos para atención personalizada.
-          <br />
-          ¡Queremos ayudarte a encontrar lo que buscas!
-        </p>
-        <div className="flex flex-col items-center justify-center w-full max-w-md gap-4 mb-12 md:flex-row">
-          <Link
-            to="/Catalogo"
-            className="w-full transition-transform shadow-lg btn btn-primary btn-lg md:w-auto hover:scale-105"
+    <section className="relative flex items-center justify-center w-full min-h-screen bg-gradient-to-b from-neutral-950 to-black text-white overflow-hidden">
+      {/* Contenido de texto (izquierda) - dentro del contenedor principal */}
+      <div className="container mx-auto flex flex-col md:flex-row items-center justify-start min-h-screen z-10">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left p-8 md:p-0 md:w-1/2">
+          <h2 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            ¿Qué esperas para <span className="text-blue-500">rodar</span>?
+          </h2>
+          <p className="max-w-xl text-lg md:text-xl leading-relaxed mb-10">
+            Descubre la diferencia LorangMX. Nuestros rodamientos están diseñados para llevar tu patinada al siguiente nivel. Velocidad, durabilidad y suavidad inigualable te esperan.
+          </p>
+          <Link 
+            to="/Catalogo" 
+            className="inline-block px-12 py-6 text-xl font-bold text-white bg-blue-600 rounded-full shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 uppercase tracking-wider"
           >
-            Ver Catálogo
+            Explora el Catálogo
           </Link>
-          <a
-            href="/Contacto"
-            className="w-full transition-transform shadow-lg btn btn-outline btn-lg md:w-auto hover:scale-105"
-          >
-            Contactar
-          </a>
-        </div>
-        {/* Nueva sección de confianza y beneficios */}
-        <div className="grid w-full max-w-4xl grid-cols-3 gap-3 mt-8 mb-0">
-          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
-            <span className="mb-2 text-blue-400">
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </span>
-            <span className="mb-1 font-bold text-white">Compra protegida</span>
-            <span className="hidden text-sm text-center text-neutral-400 md:block">
-              Tus pagos y datos están seguros.
-            </span>
-          </div>
-          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
-            <span className="mb-2 text-green-400">
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8v4l3 3"
-                />
-                <circle cx="12" cy="12" r="10" />
-              </svg>
-            </span>
-            <span className="mb-1 font-bold text-white">
-              Garantía de calidad
-            </span>
-            <span className="hidden text-sm text-center text-neutral-400 md:block">
-              Todos nuestros productos cuentan con garantía directa de fábrica.
-            </span>
-          </div>
-          <div className="flex flex-col items-center p-4 border rounded-lg bg-neutral-900 border-neutral-800">
-            <span className="mb-2 text-yellow-400">
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
-                />
-              </svg>
-            </span>
-            <span className="mb-1 font-bold text-white">
-              Atención personalizada
-            </span>
-            <span className="hidden text-sm text-center text-neutral-400 md:block">
-              ¿Dudas? Nuestro equipo te ayuda por WhatsApp o correo.
-            </span>
-          </div>
         </div>
       </div>
-      <Footer />
-    </>
+
+      {/* Imagen (derecha) - Posicionada absolutamente */}
+      <div 
+        className="absolute right-0 top-0 bottom-0 w-full md:w-1/2"
+      >
+        <img 
+          src={l2Image} 
+          alt="Skater rodando con rodamientos LorangMX" 
+          className="object-cover w-full h-full" 
+          style={{ objectPosition: 'right center' }} 
+        />
+        {/* Opcional: Overlay sutil para que el texto de la izquierda resalte más si la imagen es muy clara */}
+        <div className="absolute inset-0 bg-black opacity-20 md:hidden"></div> 
+      </div>
+    </section>
   );
 }

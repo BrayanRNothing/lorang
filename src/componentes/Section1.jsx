@@ -1,59 +1,59 @@
-import { Typewriter } from "react-simple-typewriter";
-import React from "react";
-import f1 from "../pics/set1/f1.jpeg";
-import Banner from "./Banner";
-import ScrollButton from "./ScrollButton";
+import React from 'react';
+import { Typewriter } from 'react-simple-typewriter';
+import { ArrowDownIcon } from '@heroicons/react/24/outline';
+import skateVideo from '../pics/skate-video.mp4'; // Import local video
+
+const typewriterWords = [
+  "Lorang.com",
+  "Quienes somos?",
+];
 
 export default function Section1() {
   return (
-    <>
-      {/* Desktop layout */}
-      <div className="absolute hidden w-full h-screen md:block rounded-2xl">
-        <div className="absolute top-0 space-y-6 text-left sm:top-12 md:top-24 left-12 md:w-1/2">
-          <h1
-            className="text-4xl md:text-7xl font-extrabold tracking-tight bg-gradient-to-r from-blue-500 via-blue-700 to-blue-900 bg-clip-text text-transparent drop-shadow-lg mb-2"
-            style={{ fontFamily: 'Montserrat, serif', letterSpacing: '2px', textShadow: '2px 2px 8px rgba(0,0,0,0.3)' }}
-          >
-            QUIENES SOMOS
-          </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-gray-300">
-            Somos una marca de rodamientos, originaria de Monterrey N.L, y estamos enfocados
-            a crear rodamientos duraderos, para una patinada veloz y suave. Nuestros rodamientios
-            son tratados con un recubrimiento de<span className="font-semibold text-white">óxido negro</span>
-          lo que los hace mas recistentes ante los impactos y medio ambiente en l cual nos desempeñamos patinando.
-          </p>
-          <ScrollButton />
-        </div>
-        <Banner />
-      </div>
+    <section className="relative flex items-center justify-center w-full min-h-screen overflow-hidden">
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+      >
+        <source src={skateVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-      {/* Mobile layout */}
-      <div className="relative flex flex-col items-center block w-full min-h-screen pt-24 pb-8 md:hidden bg-neutral-950">
-        <h1 className="mb-6 text-3xl font-bold text-gray-100">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-30"></div>
+
+      <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 text-white">
+        <h1 
+          className="text-5xl md:text-7xl font-extrabold tracking-tight"
+          style={{ fontFamily: 'Montserrat, sans-serif', minHeight: '80px' }}
+        >
           <Typewriter
-            words={["LORANG.COM"]}
-            loop={false}
+            words={typewriterWords}
+            loop={true}
             cursor
             cursorStyle="|"
-            typeSpeed={90}
+            typeSpeed={80}
             deleteSpeed={50}
-            delaySpeed={30000}
+            delaySpeed={2000}
           />
         </h1>
-        <img
-          src={f1}
-          alt="Skate"
-          className="w-4/5 max-w-xs mb-6 shadow-lg rounded-xl"
-        />
-        <p className="px-2 mb-6 text-base text-center text-gray-300">
-          Rodamientos premium desde Monterrey. Más resistentes, más rápidos, más Lorang.
+        <p className="mt-4 max-w-2xl text-lg md:text-xl leading-relaxed">
+          Somos una marca de rodamientos originaria de Monterrey NL, enfocados en crear rodamientos duraderos y diseñados para una patinada veloz y suave. Nuestros rodamientos cuentan con recubrimiento de óxido negro, lo que los hace más resistentes ante impactos y el ambiente donde patinamos.
         </p>
-        <ScrollButton />
-        <div className="w-full mt-8">
-          {/* Banner oculto en móvil, si quieres mostrarlo aquí, quita 'hidden' */}
-          {/* <Banner /> */}
-        </div>
+        <a 
+          href="#section2" 
+          className="mt-8 inline-block px-8 py-4 text-lg font-semibold text-white transition-transform transform hover:scale-105 bg-blue-600 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          Descubre más
+        </a>
       </div>
-    </>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+        <ArrowDownIcon className="h-8 w-8 text-white" />
+      </div>
+    </section>
   );
 }

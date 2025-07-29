@@ -6,7 +6,7 @@ import logoo from "../pics/logoo.png"
 export default function Navbar() {
   const { cart, removeFromCart, addToCart, removeAllFromCart, clearCart } = useCart();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hideNav, setHideNav] = useState(false);
+  const [hideNav, setHideNav] = useState(0);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
   const [empresaDropdown, setEmpresaDropdown] = useState(false);
@@ -63,7 +63,7 @@ export default function Navbar() {
   const totalPrice = cart.reduce((acc, item) => acc + (item.price || item.precio) * item.quantity, 0);
 
   return (
-    <nav className="w-full overflow-x-hidden shadow-md bg-neutral-950">
+    <nav className="w-full overflow-x-hidden absolute top-0 left-0 z-50">
       <div className="flex items-center h-11.5 w-full">
         {/* Logo + Lorang alineado a la izquierda */}
         <div className="flex items-center flex-shrink-0">
@@ -82,10 +82,10 @@ export default function Navbar() {
         {/* Menú PC (oculto en móvil) */}
         <div className="justify-end flex-1 hidden m-5 md:flex">
           <div className="flex items-center space-x-6">
-            <Link to="/" className="text-white">Inicio</Link>
-            <Link to="/Catalogo" className="text-white">Productos</Link>
-            <Link to="/Empresa" className="text-white">Empresa</Link>
-            <Link to="/Contacto" className="text-white">Contacto</Link>
+            <Link to="/" className="text-white hover:text-gray-300">Inicio</Link>
+            <Link to="/Catalogo" className="text-white hover:text-gray-300">Productos</Link>
+            <Link to="/Empresa" className="text-white hover:text-gray-300">Empresa</Link>
+            <Link to="/Contacto" className="text-white hover:text-gray-300">Contacto</Link>
             <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
@@ -111,24 +111,24 @@ export default function Navbar() {
           <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
             <svg xmlns="http://www.w3.org/2000/svg" className="text-white w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
-            </svg>
-            {totalItems > 0 && (
-              <span className="absolute top-0 right-0 badge badge-primary badge-sm">{totalItems}</span>
-            )}
-          </button>
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute top-0 right-0 badge badge-primary badge-sm">{totalItems}</span>
+              )}
+            </button>
+          </div>
         </div>
-      </div>
-      {/* Menú desplegable móvil */}
-      <div
-        className={`flex flex-row items-center justify-center w-full gap-4 px-4 py-0 border-b bg-neutral-950 border-neutral-800 md:hidden transition-all duration-300
+        {/* Menú desplegable móvil */}
+        <div
+          className={`flex flex-row items-center justify-center w-full gap-4 px-4 py-0 border-b bg-transparent border-blue-100 md:hidden transition-all duration-300
         ${mobileMenuOpen ? 'animate-slide-down opacity-100 pointer-events-auto' : 'animate-slide-up opacity-0 pointer-events-none'}`}
         style={{height: mobileMenuOpen ? 'auto' : 0, overflow: 'hidden'}}
-      >
-        <Link to="/" className="py-2 text-white rounded hover:bg-neutral-800" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
-        <Link to="/Catalogo" className="py-2 text-white rounded hover:bg-neutral-800" onClick={() => setMobileMenuOpen(false)}>Productos</Link>
-        <Link to="/Empresa" className="py-2 text-white rounded hover:bg-neutral-800" onClick={() => setMobileMenuOpen(false)}>Empresa</Link>
-        <Link to="/Contacto" className="py-2 text-white rounded hover:bg-neutral-800" onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
-      </div>
+        >
+          <Link to="/" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
+          <Link to="/Catalogo" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Productos</Link>
+          <Link to="/Empresa" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Empresa</Link>
+          <Link to="/Contacto" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
+        </div>
       {/* Drawer lateral del carrito y fondo para cerrar drawer se mantienen igual */}
       <div
         className={`fixed top-0 right-0 h-full w-80 bg-neutral-900 shadow-lg z-[999] transition-transform duration-300 ${

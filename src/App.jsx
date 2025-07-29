@@ -21,21 +21,18 @@ export default function App() {
       <header>
         <Navbar />
       </header>
-     
-      <main className=" bg-amber-400">
+      <main className="bg-white">
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/Catalogo" element={<Catalogo />} />
-         <Route path="/Contacto" element={<Contacto />} />
+          <Route path="/Contacto" element={<Contacto />} />
           <Route path="/producto/:id" element={<ProductView />} />
           <Route path="/Empresa" element={<Empresa />} />
           <Route path="/admin" element={<AdminProtegido />} />
           {/* Aquí puedes agregar más rutas si es necesario */}
         </Routes>
       </main>
-      </CarProvider>
+    </CarProvider>
     </>
   )
 }
-
-

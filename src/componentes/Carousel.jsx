@@ -2,6 +2,7 @@ import Section1 from "./Section1";
 import Section2 from "./Section2";
 import Section3 from "./Section3";
 import Banner from "./Banner";
+import Footer from "./Footer";
 
 export default function HomeSections() {
     return (
@@ -24,6 +25,8 @@ export default function HomeSections() {
         <section className="relative items-center justify-center min-h-screen text-black bg-gradient-to-b from-neutral-950 to-neutral-900">
           <Section3 />
         </section>
+        {/* Footer */}
+        <Footer />
       </main>
     );
   }

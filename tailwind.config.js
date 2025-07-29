@@ -6,7 +6,14 @@ module.exports = {
     ],
     theme: {
         extend: {
-            colors: { richblack: '#010101', }
+            colors: {
+                richblack: '#010101',
+                primary: '#1a202c', /* Un color de fondo oscuro */
+                secondary: '#2d3748', /* Un color secundario oscuro */
+                accent: '#4a5568', /* Un color de acento oscuro */
+                text: '#e2e8f0', /* Un color de texto claro para contraste */
+                'text-light': '#cbd5e0', /* Un color de texto ligeramente más claro */
+            }
         },
         
     },
