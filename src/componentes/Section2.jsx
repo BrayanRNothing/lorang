@@ -9,7 +9,7 @@ export default function Section2() {
           Tecnología que Impulsa tu Patinada
         </h2>
         <p className="max-w-3xl mx-auto text-lg md:text-xl leading-relaxed mb-16">
-          En LorangMX, cada rodamiento es una obra de ingeniería. Nuestro compromiso con la innovación se traduce en una experiencia de patinaje superior. Descubre cómo la precisión y los materiales avanzados se unen para ofrecerte velocidad, durabilidad y una suavidad inigualable.
+          En Lorang, cada rodamiento es una obra de ingeniería. Nuestro compromiso con la innovación se traduce en una experiencia de patinaje superior. Descubre cómo la precisión y los materiales avanzados se unen para ofrecerte velocidad, durabilidad y una suavidad inigualable.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -18,7 +18,7 @@ export default function Section2() {
             <ShieldCheckIcon className="h-16 w-16 text-green-400 mb-6" />
             <h3 className="text-2xl font-bold mb-4">Durabilidad Extrema</h3>
             <p className="text-md leading-relaxed">
-              Con nuestro exclusivo recubrimiento de óxido negro, los rodamientos LorangMX resisten los impactos más duros y las condiciones más exigentes, prolongando su vida útil y tu rendimiento.
+              Con nuestro exclusivo recubrimiento de óxido negro, los rodamientos Lorang resisten los impactos más duros y las condiciones más exigentes, prolongando su vida útil y tu rendimiento.
             </p>
           </div>
 

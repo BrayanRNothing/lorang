@@ -8,8 +8,8 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center md:items-start text-center md:text-left">
           {/* Logo y Copyright */}
           <div className="mb-6 md:mb-0">
-            <h2 className="text-2xl font-bold mb-2">LorangMX</h2>
-            <p className="text-sm">&copy; {new Date().getFullYear()} LorangMX. Todos los derechos reservados.</p>
+            <h2 className="text-2xl font-bold mb-2">Lorang</h2>
+            <p className="text-sm">&copy; {new Date().getFullYear()} Lorang. Todos los derechos reservados.</p>
           </div>
 
           {/* Navegación */}
@@ -26,7 +26,7 @@ export default function Footer() {
           {/* Contacto */}
           <div className="mb-6 md:mb-0">
             <h3 className="text-lg font-semibold mb-3">Contacto</h3>
-            <p className="text-sm">Email: <a href="mailto:lorangMX@gmail.com" className="hover:text-gray-400 transition-colors duration-300">tu_email@lorangmx.com</a></p>
+            <p className="text-sm">Email: <a href="mailto:lorangMX@gmail.com" className="hover:text-gray-400 transition-colors duration-300">lorangMx@gmail.com</a></p>
             <p className="text-sm">Teléfono: <a href="tel:+528119817118" className="hover:text-gray-400 transition-colors duration-300">+52 8119817118</a></p>
           </div>
 

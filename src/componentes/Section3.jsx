@@ -12,7 +12,7 @@ export default function Section3() {
             ¿Qué esperas para <span className="text-blue-500">rodar</span>?
           </h2>
           <p className="max-w-xl text-lg md:text-xl leading-relaxed mb-10">
-            Descubre la diferencia LorangMX. Nuestros rodamientos están diseñados para llevar tu patinada al siguiente nivel. Velocidad, durabilidad y suavidad inigualable te esperan.
+            Descubre la diferencia Lorang. Nuestros rodamientos están diseñados para llevar tu patinada al siguiente nivel. Velocidad, durabilidad y suavidad inigualable te esperan.
           </p>
           <Link 
             to="/Catalogo" 

@@ -82,10 +82,10 @@ export default function Navbar() {
         {/* Menú PC (oculto en móvil) */}
         <div className="justify-end flex-1 hidden m-5 md:flex">
           <div className="flex items-center space-x-6">
-            <Link to="/" className="text-white hover:text-gray-300">Inicio</Link>
-            <Link to="/Catalogo" className="text-white hover:text-gray-300">Productos</Link>
-            <Link to="/Empresa" className="text-white hover:text-gray-300">Empresa</Link>
-            <Link to="/Contacto" className="text-white hover:text-gray-300">Contacto</Link>
+            <Link to="/" className="text-white text-lg hover:text-gray-300">Inicio</Link>
+            <Link to="/Catalogo" className="text-white text-lg hover:text-gray-300">Productos</Link>
+            <Link to="/Empresa" className="text-white text-lg hover:text-gray-300">Empresa</Link>
+            <Link to="/Contacto" className="text-white text-lg hover:text-gray-300">Contacto</Link>
             <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
               <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
