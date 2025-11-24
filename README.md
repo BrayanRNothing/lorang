@@ -1,3 +1,55 @@
+# Lorang
+## Backend dual: MongoDB o JSON local
+
+El backend ahora soporta dos modos de almacenamiento, seleccionables por variable de entorno `DATA_MODE`:
+
+- `mongo`: usa MongoDB Atlas a través de Mongoose (como antes).
+- `local`: guarda y lee productos desde `backend/data/products.json` (sin DB).
+
+### Variables de entorno (`backend/.env`)
+
+Puedes copiar `backend/.env.example` a `backend/.env` y ajustar:
+
+```
+DATA_MODE=local
+PORT=3000
+MONGO_URI=... # solo si DATA_MODE=mongo
+CLOUDINARY_*=  # opcional, para /api/upload
+```
+
+### Endpoints
+
+- `GET /api/products` — lista productos (según modo actual)
+- `GET /api/products/:id` — detalle
+- `POST /api/products` — crea producto (en DB o en JSON)
+- `DELETE /api/products/:id` — elimina
+- `GET /api/products/__mode` — devuelve `{ mode: 'local' | 'mongo' }`
+
+Formato esperado de `POST /api/products`:
+
+```json
+{
+	"nombre": "...",
+	"descripcion": "...",
+	"precio": "400",
+	"imagen": "https://...",     // principal
+	"images": ["https://..."],    // opcional, galería
+	"category": "all"
+}
+```
+
+En modo `local`, el backend genera `id` automáticamente y lo persiste en `data/products.json`.
+
+## Despliegue en Hostinger (resumen)
+
+1. Crea un sitio Node.js en tu panel (o usa SSH). Asegúrate de tener Node 18+.
+2. Sube el repo (git pull o File Manager). Instala dependencias en `backend`.
+3. Crea `backend/.env` con `DATA_MODE=local` para iniciar rápido sin DB.
+4. Arranca el servidor en `backend/server.js` (PM2 recomendado) y abre el puerto.
+5. En el frontend, define `VITE_BACKEND_URL` apuntando al dominio/puerto del backend.
+
+Para usar `mongo`, cambia `DATA_MODE=mongo` y configura `MONGO_URI`.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

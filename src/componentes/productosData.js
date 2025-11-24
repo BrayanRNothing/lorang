@@ -18,6 +18,8 @@ export const products = [
     description: "ABC 9 clasic,",
     details: "Recubiertos en dioxicod de caerbono negro,edicion especial",
     image: s1f3,
+    // Galería local para pruebas (para ver miniaturas laterales)
+    images: [s1f1, s1f2, s1f3],
     price: 500,
     category: "rodamientos",
   },

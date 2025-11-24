@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 // Contenedor principal de la página de administración
 const PageContainer = ({ children }) => (
-  <div className="min-h-screen w-full bg-neutral-950 text-white p-4 sm:p-6 lg:p-8">
+  <div className="min-h-screen w-full bg-neutral-950 text-white p-4 sm:p-6 lg:p-8 pt-20">
     <div className="max-w-7xl mx-auto">{children}</div>
   </div>
 );
@@ -15,8 +15,12 @@ function AdminForm({
   error,
   exito,
   cargando,
+  mode,
 }) {
   const [imagen, setImagen] = useState(null);
+  const [imagenes, setImagenes] = useState([]); // Para múltiples imágenes
+  const [imagenUrl, setImagenUrl] = useState(''); // Alternativa rápida: URL directa
+  const [galeriaUrls, setGaleriaUrls] = useState(''); // URLs separadas por coma
   const [nombre, setNombre] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [precio, setPrecio] = useState('');
@@ -24,7 +28,7 @@ function AdminForm({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onFormSubmit(e, { nombre, descripcion, precio, etiqueta, imagen });
+    onFormSubmit(e, { nombre, descripcion, precio, etiqueta, imagen, imagenes, imagenUrl, galeriaUrls });
     // Limpiar formulario si no hay error
     if (error) return;
     setNombre('');
@@ -32,14 +36,27 @@ function AdminForm({
     setPrecio('');
     setEtiqueta('');
     setImagen(null);
+    setImagenes([]);
+    setImagenUrl('');
+    setGaleriaUrls('');
     e.target.reset();
   };
 
   return (
     <div className="space-y-12">
-      <header>
-        <h1 className="text-4xl font-bold tracking-tight">Bienvenido Angel</h1>
-        <p className="mt-2 text-neutral-400">Agrega, edita o elimina productos de la tienda.</p>
+      <header className="py-4">
+        <div className="flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">Bienvenido Angel</h1>
+            <p className="mt-3 text-neutral-400 text-base md:text-lg">Agrega, edita o elimina productos de la tienda.</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-neutral-400">Modo de datos</span>
+            <span className={`px-2.5 py-1 rounded-md text-sm font-semibold border ${mode === 'local' ? 'bg-green-900/30 text-green-300 border-green-700/40' : 'bg-blue-900/30 text-blue-300 border-blue-700/40'}`}>
+              {mode === 'local' ? 'LOCAL (JSON)' : 'MONGO'}
+            </span>
+          </div>
+        </div>
       </header>
 
       {/* Alertas */}
@@ -60,8 +77,28 @@ function AdminForm({
           <h2 className="text-2xl font-semibold">Agregar Nuevo Producto</h2>
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
             <label className="block">
-              <span className="font-medium text-neutral-300">Imagen</span>
+              <span className="font-medium text-neutral-300">Imagen Principal</span>
               <input type="file" accept="image/*" onChange={(e) => setImagen(e.target.files[0])} required className="block w-full text-sm mt-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-blue-600/20 file:text-blue-300 hover:file:bg-blue-600/30 text-neutral-400"/>
+            </label>
+            <div className="text-xs text-neutral-500">O pega una URL directa si ya tienes la imagen hospedada:</div>
+            <label className="block">
+              <span className="font-medium text-neutral-300">URL de imagen principal (opcional)</span>
+              <input type="url" placeholder="https://..." value={imagenUrl} onChange={(e) => setImagenUrl(e.target.value)} className="w-full px-4 py-2 mt-2 bg-neutral-800 border-2 border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+            </label>
+            <label className="block">
+              <span className="font-medium text-neutral-300">Galería de Imágenes (opcional)</span>
+              <input 
+                type="file" 
+                accept="image/*" 
+                multiple 
+                onChange={(e) => setImagenes(Array.from(e.target.files))} 
+                className="block w-full text-sm mt-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:font-semibold file:bg-purple-600/20 file:text-purple-300 hover:file:bg-purple-600/30 text-neutral-400"
+              />
+              <p className="mt-1 text-xs text-neutral-500">Puedes seleccionar hasta 6 imágenes adicionales</p>
+            </label>
+            <label className="block">
+              <span className="font-medium text-neutral-300">URLs de galería (opcional, separa por coma)</span>
+              <input type="text" placeholder="https://..., https://..." value={galeriaUrls} onChange={(e) => setGaleriaUrls(e.target.value)} className="w-full px-4 py-2 mt-2 bg-neutral-800 border-2 border-neutral-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"/>
             </label>
             <label className="block">
               <span className="font-medium text-neutral-300">Nombre</span>
@@ -98,6 +135,9 @@ function AdminForm({
                       <div>
                         <p className="font-semibold text-white">{p.nombre || p.title}</p>
                         <p className="text-sm text-neutral-400">${p.precio}</p>
+                        {Array.isArray(p.images) && p.images.length > 1 && (
+                          <p className="text-xs text-neutral-500 mt-1">Galería: {p.images.length} imágenes</p>
+                        )}
                       </div>
                     </div>
                     <button onClick={() => onDelete(p.id)} className="px-4 py-2 font-bold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
@@ -118,6 +158,7 @@ function AdminForm({
 
 // Componente de Acceso Protegido (Componente Padre)
 export default function AdminProtegido() {
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
   const [autorizado, setAutorizado] = useState(false);
   const [clave, setClave] = useState('');
   const [loginError, setLoginError] = useState(false);
@@ -126,6 +167,7 @@ export default function AdminProtegido() {
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState('');
   const [exito, setExito] = useState('');
+  const [mode, setMode] = useState('');
 
   // Verificar autorización al cargar
   useEffect(() => {
@@ -136,10 +178,13 @@ export default function AdminProtegido() {
   // Cargar productos al autorizar
   useEffect(() => {
     if (autorizado) {
-      fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
+      fetch(`${API_BASE}/api/products`)
         .then((res) => res.json())
         .then((data) => setProductos(data))
         .catch(() => setError('No se pudieron cargar los productos.'));
+
+      // Consultar modo actual del backend
+      fetch(`${API_BASE}/api/products/__mode`).then(r => r.json()).then(d => setMode(d.mode)).catch(() => {});
     }
   }, [autorizado]);
 
@@ -161,7 +206,7 @@ export default function AdminProtegido() {
     setError('');
     setExito('');
     try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products/${id}`, { method: 'DELETE' });
+  const res = await fetch(`${API_BASE}/api/products/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Error al eliminar');
       setProductos(productos.filter((p) => p.id !== id));
       setExito('Producto eliminado correctamente.');
@@ -171,33 +216,57 @@ export default function AdminProtegido() {
   };
 
   // Manejar envío del formulario
-  const handleSubmit = async (e, { nombre, descripcion, precio, etiqueta, imagen }) => {
+  const handleSubmit = async (e, { nombre, descripcion, precio, etiqueta, imagen, imagenes, imagenUrl, galeriaUrls }) => {
     e.preventDefault();
     setError('');
     setExito('');
 
-    if (!imagen || !nombre || !descripcion || !precio || !etiqueta) {
-      setError('Todos los campos son obligatorios.');
+    if ((!imagen && !imagenUrl) || !nombre || !descripcion || !precio || !etiqueta) {
+      setError('Faltan campos obligatorios (incluye imagen o URL).');
       return;
     }
 
     setCargando(true);
 
     try {
-      const formData = new FormData();
-      formData.append('imagen', imagen);
+      let principalUrl = imagenUrl?.trim();
+      if (!principalUrl) {
+        // Subir archivo si no se dio URL directa
+        const formData = new FormData();
+        formData.append('imagen', imagen);
+        const uploadRes = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body: formData });
+        if (!uploadRes.ok) throw new Error('Error al subir la imagen principal');
+        const { url } = await uploadRes.json();
+        principalUrl = url;
+      }
 
-      const uploadRes = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/upload`, {
-        method: 'POST',
-        body: formData,
-      });
+      // Subir imágenes adicionales si existen
+      let imagenesUrls = [];
+      if (galeriaUrls?.trim()) {
+        imagenesUrls = galeriaUrls.split(',').map(s => s.trim()).filter(Boolean).slice(0, 12);
+      } else if (imagenes && imagenes.length > 0) {
+        const uploadPromises = imagenes.slice(0, 6).map(async (img) => {
+          const fd = new FormData();
+          fd.append('imagen', img);
+          const res = await fetch(`${API_BASE}/api/upload`, { method: 'POST', body: fd });
+          if (!res.ok) throw new Error('Error al subir galería');
+          const data = await res.json();
+          return data.url;
+        });
+        imagenesUrls = await Promise.all(uploadPromises);
+      }
 
-      if (!uploadRes.ok) throw new Error('Error al subir la imagen');
-      const { url } = await uploadRes.json();
+      // Crear objeto producto con imagen principal y galería
+      const producto = {
+        nombre,
+        descripcion,
+        precio,
+        category: etiqueta,
+        imagen: principalUrl,
+        images: [principalUrl, ...imagenesUrls]
+      };
 
-      const producto = { nombre, descripcion, precio, category: etiqueta, imagen: url };
-
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`, {
+      const res = await fetch(`${API_BASE}/api/products`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(producto),
@@ -258,6 +327,7 @@ export default function AdminProtegido() {
         error={error}
         exito={exito}
         cargando={cargando}
+        mode={mode}
       />
     </PageContainer>
   );

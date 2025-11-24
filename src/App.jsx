@@ -10,6 +10,7 @@ import Contacto from './componentes/Contacto'
 import ProductView from './componentes/ProductView'
 import Empresa from './componentes/Empresa'
 import { CarProvider } from './componentes/CarContext'
+import { ToastProvider } from './componentes/Toast'
 import AdminProtegido from './componentes/Admin'
 
 
@@ -17,6 +18,7 @@ import AdminProtegido from './componentes/Admin'
 export default function App() {
   return(
     <>
+    <ToastProvider>
     <CarProvider>
       <header>
         <Navbar />
@@ -33,6 +35,7 @@ export default function App() {
         </Routes>
       </main>
     </CarProvider>
+    </ToastProvider>
     </>
   )
 }

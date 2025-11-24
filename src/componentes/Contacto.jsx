@@ -1,107 +1,205 @@
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaWhatsapp, FaFacebook, FaInstagram, FaClock } from 'react-icons/fa';
+
 export default function Contacto() {
   return (
-    <section className="flex flex-col md:flex-row items-stretch justify-center w-full min-h-[calc(100vh-2.875rem)] bg-neutral-950 text-white">
-      {/* Main grid */}
-      <div className="flex flex-col md:flex-row w-full max-w-6xl mx-auto border-neutral-800 md:divide-x divide-neutral-800">
-        {/* Formulario */}
-        <div className="flex flex-col justify-center flex-1 px-4 py-8 md:px-8 md:py-16">
-          <div className="flex flex-col items-center justify-center min-h-full">
-            <h2 className="w-full mb-8 text-3xl font-bold text-center text-white">Envíanos un mensaje</h2>
-            <form className="flex flex-col w-full max-w-sm gap-6">
-              <div className="flex w-full gap-4">
+    <section className="w-full min-h-screen bg-neutral-950 text-white pt-24 pb-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            Contáctanos
+          </h1>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            ¿Tienes alguna pregunta? Estamos aquí para ayudarte. Envíanos un mensaje o contáctanos directamente.
+          </p>
+        </div>
+
+        {/* Grid principal */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          
+          {/* Formulario de contacto */}
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-2xl">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
+              <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"></span>
+              Envíanos un mensaje
+            </h2>
+            <form className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Nombre completo
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Tu nombre"
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    placeholder="tu@email.com"
+                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    required
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Teléfono
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+52 81 1234 5678"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Asunto
+                </label>
                 <input
                   type="text"
-                  placeholder="Nombre"
-                  className="w-1/2 text-white input input-bordered bg-neutral-800 border-neutral-700"
-                  required
-                />
-                <input
-                  type="email"
-                  placeholder="Correo electrónico"
-                  className="w-1/2 text-white input input-bordered bg-neutral-800 border-neutral-700"
+                  placeholder="¿Sobre qué quieres hablar?"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   required
                 />
               </div>
-              <input
-                type="text"
-                placeholder="Asunto"
-                className="w-full text-white input input-bordered bg-neutral-800 border-neutral-700"
-                required
-              />
-              <textarea
-                placeholder="¿En qué podemos ayudarte?"
-                className="w-full text-white textarea textarea-bordered bg-neutral-800 border-neutral-700"
-                rows={5}
-                required
-              />
-              <button className="transition-transform shadow btn btn-primary btn-block hover:scale-105">
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Mensaje
+                </label>
+                <textarea
+                  placeholder="Cuéntanos en qué podemos ayudarte..."
+                  rows={5}
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  required
+                />
+              </div>
+
+              <button 
+                type="submit"
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+              >
                 Enviar mensaje
               </button>
-              <p className="text-xs text-center text-gray-400">
-                Te responderemos lo antes posible a tu correo.
+              
+              <p className="text-sm text-gray-500 text-center">
+                Te responderemos lo antes posible
               </p>
             </form>
           </div>
-        </div>
 
-        {/* Datos de contacto y redes */}
-        <div className="flex flex-col justify-center flex-1 px-4 py-8 md:px-8 md:py-16 border-t border-neutral-800 md:border-t-0">
-          <div className="flex flex-col items-center justify-center min-h-full">
-            <h2 className="w-full mb-8 text-3xl font-bold text-center text-white">Datos de contacto</h2>
-            <ul className="w-full max-w-sm mb-10 space-y-5 text-gray-300">
-              <li className="flex items-center gap-3">
-                <span className="text-primary">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 01-8 0m8 0a4 4 0 00-8 0m8 0V8a4 4 0 00-8 0v4m8 0v4a4 4 0 01-8 0v-4" /></svg>
-                </span>
-                <a href="mailto:contacto@ejemplo.com" className="transition-colors hover:text-primary">
-                  LorangMx@gmail.com
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-primary">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" /></svg>
-                </span>
-                <a href="tel:+528112345678" className="transition-colors hover:text-primary">
-                  +52 81 1222 3456
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-primary">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h2m10 0V6a4 4 0 00-8 0v2m8 0H7" /></svg>
-                </span>
-                <span>Calle Ficticia 123, Monterrey, NL</span>
-              </li>
-            </ul>
-            <h3 className="w-full mb-4 text-xl font-semibold text-center text-white">Redes Sociales</h3>
-            <div className="flex w-full max-w-sm gap-3 mb-8">
-              <a
-                href="https://wa.me/528112345678"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 transition-transform shadow btn btn-success btn-sm hover:scale-105"
-              >
-                WhatsApp
-              </a>
-              <a
-                href="https://www.facebook.com/ejemplo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 transition-transform shadow btn btn-primary btn-sm hover:scale-105"
-              >
-                Facebook
-              </a>
-              <a
-                href="https://www.instagram.com/ejemplo"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 transition-transform shadow btn btn-secondary btn-sm hover:scale-105"
-              >
-                Instagram
-              </a>
+          {/* Información de contacto */}
+          <div className="space-y-6">
+            
+            {/* Tarjetas de contacto directo */}
+            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
+              <div className="flex items-start gap-4">
+                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
+                  <FaEnvelope className="w-6 h-6 text-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-1">Email</h3>
+                  <a href="mailto:LorangMx@gmail.com" className="text-gray-400 hover:text-blue-500 transition-colors">
+                    LorangMx@gmail.com
+                  </a>
+                  <p className="text-sm text-gray-600 mt-1">Respuesta en 24-48 horas</p>
+                </div>
+              </div>
             </div>
-            <div className="w-full text-xs text-center text-gray-400">
-              Horario de atención: Lunes a Sabado 9:00am - 6:00pm
+
+            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
+              <div className="flex items-start gap-4">
+                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
+                  <FaPhone className="w-6 h-6 text-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-1">Teléfono</h3>
+                  <a href="tel:+528119817118" className="text-gray-400 hover:text-blue-500 transition-colors">
+                    +52 811 981 7118
+                  </a>
+                  <p className="text-sm text-gray-600 mt-1">Lun - Sáb: 9:00am - 6:00pm</p>
+                </div>
+              </div>
             </div>
+
+            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
+              <div className="flex items-start gap-4">
+                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
+                  <FaMapMarkerAlt className="w-6 h-6 text-blue-500" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-1">Ubicación</h3>
+                  <p className="text-gray-400">Monterrey, Nuevo León</p>
+                  <p className="text-sm text-gray-600 mt-1">México</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Horario */}
+            <div className="bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <FaClock className="w-5 h-5 text-blue-500" />
+                <h3 className="text-lg font-semibold">Horario de atención</h3>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Lunes - Viernes</span>
+                  <span className="text-white font-medium">9:00am - 6:00pm</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Sábado</span>
+                  <span className="text-white font-medium">10:00am - 2:00pm</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Domingo</span>
+                  <span className="text-gray-600">Cerrado</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Redes sociales */}
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold mb-4">Síguenos en redes</h3>
+              <div className="grid grid-cols-3 gap-3">
+                <a 
+                  href="https://wa.me/528119817118" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-green-500/10 border border-neutral-700 hover:border-green-500 transition-all group"
+                >
+                  <FaWhatsapp className="w-7 h-7 text-green-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs text-gray-400 group-hover:text-green-500">WhatsApp</span>
+                </a>
+                <a 
+                  href="https://www.facebook.com/lorangmx" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-blue-500/10 border border-neutral-700 hover:border-blue-500 transition-all group"
+                >
+                  <FaFacebook className="w-7 h-7 text-blue-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs text-gray-400 group-hover:text-blue-500">Facebook</span>
+                </a>
+                <a 
+                  href="https://www.instagram.com/lorang_mx" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-pink-500/10 border border-neutral-700 hover:border-pink-500 transition-all group"
+                >
+                  <FaInstagram className="w-7 h-7 text-pink-500 group-hover:scale-110 transition-transform" />
+                  <span className="text-xs text-gray-400 group-hover:text-pink-500">Instagram</span>
+                </a>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

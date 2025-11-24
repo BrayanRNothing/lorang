@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  images: {
+    type: [String], // Array de URLs de imágenes
+    default: function() { return [this.imagen]; } // Por defecto, contiene solo la imagen principal
+  },
   category: {
     type: String,
     required: true,

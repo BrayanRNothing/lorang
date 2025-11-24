@@ -1,5 +1,4 @@
 @import 'tailwindcss';
-@plugin 'daisyui';
 
 html,body, #root {
     height: 100%;
@@ -21,6 +20,9 @@ html, body, #root {
   body, #root {
     background-color: #0a0a0a;
 }
+
+/* Ocultar el footer en la vista de producto (layout sin scroll ni barra inferior oscura) */
+body.no-footer footer { display: none !important; }
 
   @keyframes typing {
     from {

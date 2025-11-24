@@ -1,182 +1,404 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from "./CarContext";
+import { products as localProducts } from "./productosData";
 
 export default function ProductView() {
-    const { id } = useParams();
-    const navigate = useNavigate();
-    const { addToCart } = useCart();
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [quantity, setQuantity] = useState(1);
+  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
-    useEffect(() => {
-        fetch(`${import.meta.env.VITE_BACKEND_URL}/api/products`)
-            .then(res => res.json())
-            .then(data => {
-                const prod = data.find(p => String(p.id) === String(id));
-                setProduct(prod);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
-    }, [id]);
-
-    if (loading) {
-        return <div className="flex items-center justify-center min-h-screen text-blue-700 bg-gradient-to-b from-white via-blue-50 to-gray-100">Cargando...</div>;
+  // Permitir forzar datos locales para pruebas: /producto/:id?local=1
+  const forceLocal = (() => {
+    try {
+      return new URLSearchParams(window.location.search).has('local');
+    } catch {
+      return false;
     }
+  })();
 
-    if (!product) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen text-blue-700 bg-gradient-to-b from-white via-blue-50 to-gray-100">
-                <h2 className="mb-4 text-2xl font-bold">Producto no encontrado</h2>
-                <button className="btn btn-primary" onClick={() => navigate(-1)}>
-                    Volver
-                </button>
-            </div>
-        );
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [qty, setQty] = useState(1);
+
+  // Reset galería cuando cambia el ID
+  useEffect(() => {
+    setActiveIndex(0);
+    setQty(1);
+  }, [id]);
+
+  // Asegurar fondo blanco a pantalla completa en esta vista (evita banda negra del body oscuro)
+  useEffect(() => {
+    const prevBodyBg = document.body.style.backgroundColor;
+    const prevHtmlBg = document.documentElement.style.backgroundColor;
+    const prevRootBg = document.getElementById('root')?.style.backgroundColor;
+    const prevOverflow = document.body.style.overflow;
+
+    // Fondo blanco forzado en html, body y #root
+    document.documentElement.style.backgroundColor = '#ffffff';
+    document.body.style.backgroundColor = '#ffffff';
+    if (document.getElementById('root')) document.getElementById('root').style.backgroundColor = '#ffffff';
+
+    // Evitar scroll global; gestionamos scroll dentro de columnas
+    document.body.style.overflow = 'hidden';
+
+    // Ocultar footer global solo en esta vista
+    document.body.classList.add('no-footer');
+    return () => {
+      document.documentElement.style.backgroundColor = prevHtmlBg || '';
+      document.body.style.backgroundColor = prevBodyBg || '#0a0a0a';
+      if (document.getElementById('root')) document.getElementById('root').style.backgroundColor = prevRootBg || '';
+      document.body.style.overflow = prevOverflow || '';
+      document.body.classList.remove('no-footer');
+    };
+  }, []);
+
+  // Cargar producto (intenta por ID; si falla, hace fallback a lista completa y busca por id)
+  useEffect(() => {
+    let cancelled = false;
+    async function load() {
+      try {
+        setLoading(true);
+        // Forzar datos locales si se indica por query param
+        if (forceLocal) {
+          const foundLocal = localProducts.find((p) => String(p.id) === String(id));
+          if (!cancelled) setProduct(foundLocal || null);
+          return;
+        }
+        // 1) Intento directo por ID
+  const byId = await fetch(`${API_BASE}/api/products/${id}`);
+        if (byId.ok) {
+          const data = await byId.json();
+          if (!cancelled) setProduct(data || null);
+        } else {
+          // 2) Fallback: traer todos y buscar
+          const all = await fetch(`${API_BASE}/api/products`);
+          if (all.ok) {
+            const list = await all.json();
+            const found = Array.isArray(list) ? list.find((p) => String(p.id) === String(id)) : null;
+            if (!cancelled) setProduct(found || null);
+          } else {
+            // 3) Fallback local: buscar en productos locales
+            const foundLocal = localProducts.find((p) => String(p.id) === String(id));
+            if (!cancelled) setProduct(foundLocal || null);
+          }
+        }
+      } catch (e) {
+        // Fallback local en caso de error general
+        const foundLocal = localProducts.find((p) => String(p.id) === String(id));
+        if (!cancelled) setProduct(foundLocal || null);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
     }
+    load();
+    return () => { cancelled = true; };
+  }, [id]);
 
-    const cuotas = Math.ceil(product.price / 6);
-    const stock = 12; // puedes cambiarlo por producto.stock si lo tienes
-
+  if (loading) {
     return (
-        <section className="flex flex-col items-center min-h-screen px-2 py-10 bg-neutral-950">
-            <div className="grid w-full max-w-6xl grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
-                {/* Columna 1: Imagen */}
-                <div className="flex flex-col items-center md:items-start">
-                    <img
-                        src={product.image || product.imagen}
-                        alt={product.title || product.nombre}
-                        className="object-contain w-full max-w max-h-[420px] rounded-md shadow-lg bg-neutral-900 border border-neutral-800 "
-                    />
-                    <div className="flex flex-row w-full max-w-[370px] gap-2 mt-6">
-                        <span className="text-xs text-neutral-400">
-                             Código: <span className="text-neutral-200">{product.id}</span>
-                        </span>
-                        <span className="text-xs text-neutral-400">
-                            Categoría: <span className="text-blue-400 uppercase">{product.category}</span>
-                        </span>
-                    </div>
-                </div>
-                {/* Columna 2: Nombre, descripción y precio */}
-                <div className="flex flex-col items-start justify-start w-full h-full ">
-                    <h1 className="mb-3 text-3xl font-extrabold text-white">{product.title || product.nombre}</h1>
-                    <div className="mb-4 ">
-                        <span className="text-4xl font-extrabold text-green-500">${product.price || product.precio}</span>
-                        <span className="ml-2 text-base text-neutral-400 align-super">
-                            o 6x <span className="font-bold text-green-400">${Math.ceil((product.price || product.precio) / 6)}</span> sin interés
-                        </span>
-                    </div>
-                    <div className="w-full mb-6 h-1/2">
-                        <p className="text-base text-neutral-300">{product.description || product.descripcion}</p>
-                        <p className="mt-2 text-sm text-neutral-400">{product.details || ''}</p>
-                    </div>
-                    <div className="flex items-center gap-2 mt-3 mb-2">
-                        <span className="text-xs font-semibold text-blue-400">Garantía en compras</span>
-                        <span className="text-xs text-neutral-500">| Compra protegida</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 mb-2 ">
-                        <span className="px-2 py-1 text-xs font-semibold rounded bg-neutral-800 text-neutral-300">Nuevo</span>
-                        <span className="px-2 py-1 text-xs font-semibold rounded bg-neutral-800 text-neutral-300">Devolución gratis</span>
-                        <span className="px-2 py-1 text-xs font-semibold rounded bg-neutral-800 text-neutral-300">Garantía oficial</span>
-                    </div>
-                </div>
-                {/* Columna 3: Stock, envío, botones y más info */}
-                <div className="flex flex-col items-start w-full max-w-xs gap-6 mx-auto md:mx-0">
-                    <div className="mt-3">
-                        <span className={`text-base font-semibold ${stock > 0 ? "text-green-500" : "text-red-500"}`}>
-                            {stock > 0 ? `Stock disponible (${stock})` : "Sin stock"}
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <span className="text-green-400">
-                            <svg className="inline w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                            </svg>
-                        </span>
-                        <span className="text-sm font-semibold text-green-400">Envío gratis</span>
-                        <span className="text-xs text-neutral-400">(a todo Nuevo Leon)</span>
-                    </div>
-                    <div>
-                        <span className="text-xs text-neutral-400">Recíbelo entre <span className="font-semibold text-white">2 y 5 días</span></span>
-                    </div>
-                    <div>
-                        <span className="text-xs text-neutral-400">Métodos de pago:</span>
-                        <div className="flex gap-2 mt-1">
-                            <span className="px-2 py-1 text-xs rounded bg-neutral-800 text-neutral-200">Tarjeta</span>
-                            <span className="px-2 py-1 text-xs rounded bg-neutral-800 text-neutral-200">OXXO</span>
-                            <span className="px-2 py-1 text-xs rounded bg-neutral-800 text-neutral-200">Transferencia</span>
-                        </div>
-                    </div>
-                    <div className="flex items-center gap-3 mt-5">
-                        <button
-                            className="btn btn-outline btn-sm"
-                            onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                            disabled={quantity <= 1}
-                        >
-                            −
-                        </button>
-                        <span className="px-4 py-2 text-lg font-bold text-white bg-neutral-800 rounded-lg">{quantity}</span>
-                        <button
-                            className="btn btn-outline btn-sm"
-                            onClick={() => setQuantity(q => Math.min(stock, q + 1))}
-                            disabled={quantity >= stock}
-                        >
-                            +
-                        </button>
-                    </div>
-                    <div className="flex flex-col w-full gap-3 mt-5">
-                        <button 
-                            className="w-full btn btn-secondary btn-lg"
-                            onClick={() => {
-                                const msg = `¡Hola! Quiero comprar:\n\n1. ${(product.title || product.nombre)} x${quantity} - $${(product.price || product.precio) * quantity}\n\nTotal: $${(product.price || product.precio) * quantity}`;
-                                window.open(`https://wa.me/528119817118?text=${encodeURIComponent(msg)}`, '_blank');
-                            }}
-                        >
-                        Comprar
-                        </button>
-                        <button
-                            className="w-full font-bold btn btn-primary btn-lg"
-                            onClick={() => addToCart({ ...product, quantity })}
-                            disabled={stock === 0}
-                        >
-                            {stock === 0 ? "Sin stock" : "Agregar al carrito"}
-                        </button>
-                        <button
-                            className="w-full btn btn-outline btn-lg"
-                            onClick={() => navigate(-1)}
-                        >
-                            Volver al catálogo
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
-            {/* Descripción extendida */}
-            <div className="w-full max-w-6xl px-2 mt-14 md:px-0">
-                <h2 className="mb-4 text-2xl font-bold text-white">Descripción del producto</h2>
-                <p className="mb-2 text-base text-neutral-300">{product.description}</p>
-                <p className="text-sm text-neutral-400">{product.details}</p>
-            </div>
-            {/* Seguridad y atención */}
-            <div className="flex flex-col w-full max-w-6xl gap-4 px-2 mt-10 md:flex-row md:px-0">
-                <div className="flex items-center flex-1 gap-3 p-4 border rounded-lg bg-neutral-900 border-neutral-800">
-                    <span className="text-green-400">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </span>
-                    <span className="text-sm text-neutral-300">Compra protegida con Mercado Pago o Transacciones</span>
-                </div>
-                <div className="flex items-center flex-1 gap-3 p-4 border rounded-lg bg-neutral-900 border-neutral-800">
-                    <span className="text-blue-400">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z" />
-                        </svg>
-                    </span>
-                    <span className="text-sm text-neutral-300">Soporte y atención personalizada</span>
-                </div>
-            </div>
-        </section>
+      <div className="flex items-center justify-center min-h-screen bg-white">
+        <div className="w-12 h-12 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+      </div>
     );
+  }
+
+  if (!product) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-white">
+        <h2 className="mb-3 text-xl font-bold text-gray-900">Producto no encontrado</h2>
+        <button className="px-5 py-3 text-white bg-black rounded-lg" onClick={() => navigate(-1)}>
+          Volver
+        </button>
+      </div>
+    );
+  }
+
+  const stock = 12; // Opcional: reemplazar por product.stock si existe
+  // Normalizar galería de imágenes con tolerancia a distintos formatos/campos
+  const normalizeToArray = (val) => {
+    if (!val) return [];
+    if (Array.isArray(val)) {
+      return val
+        .map((item) => {
+          if (!item) return null;
+          if (typeof item === 'string') return item.trim();
+          if (typeof item === 'object') {
+            return (
+              item.url ||
+              item.secure_url ||
+              item.src ||
+              item.image ||
+              item.imagen ||
+              null
+            );
+          }
+          return null;
+        })
+        .filter(Boolean);
+    }
+    if (typeof val === 'string') {
+      const trimmed = val.trim();
+      // Intentar parsear JSON si parece un array
+      if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+        try {
+          const parsed = JSON.parse(trimmed);
+          return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+        } catch (_) {
+          // Si falla el parseo, continuar a separación por comas
+        }
+      }
+      // Separar por comas si existen múltiples URLs
+      if (trimmed.includes(',')) {
+        return trimmed.split(',').map(s => s.trim()).filter(Boolean);
+      }
+      // Una sola URL en string
+      return [trimmed];
+    }
+    return [];
+  };
+
+  const imagesGathered = [
+    ...normalizeToArray(product.images),
+    ...normalizeToArray(product.imagenes),
+    ...normalizeToArray(product.gallery),
+    ...normalizeToArray(product.galeria),
+  ];
+  const primary = product.image || product.imagen || '';
+  const images = Array.from(new Set([primary, ...imagesGathered].filter(Boolean)));
+
+  return (
+  <section className="relative flex flex-col items-center h-screen px-3 md:px-4 pt-16 pb-6 bg-white overflow-hidden">
+  {/* Fondo blanco ya forzado en html/body/root desde efecto; sin capa fija para evitar 'algo blanco' tapando */}
+  <div className="w-full max-w-7xl h-full flex flex-col pb-4">
+      
+  {/* Breadcrumbs minimal (ocultos en móvil para dar más aire a la imagen) */}
+  <nav className="hidden md:block mb-2 text-sm text-gray-500" aria-label="Breadcrumb">
+          <ol className="flex items-center gap-2">
+            <li>
+              <Link to="/" className="hover:text-blue-600">
+                Inicio
+              </Link>
+            </li>
+            <li className="text-gray-400">/</li>
+            <li>
+              <Link to="/Catalogo" className="hover:text-blue-600">
+                Catálogo
+              </Link>
+            </li>
+            <li className="text-gray-400">/</li>
+            <li className="font-medium text-gray-700 truncate max-w-[40ch]" title={product.title || product.nombre}>
+              {product.title || product.nombre}
+            </li>
+          </ol>
+        </nav>
+
+  <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,0.9fr)] gap-6 flex-1 overflow-hidden">
+    {/* Columna izquierda: Galería profesional - miniaturas al lateral izquierdo + imagen principal */}
+          <div className="flex flex-col h-full gap-3 order-1 md:pt-1">
+            {/* Desktop: imagen grande al lado izquierdo + grid de miniaturas derecho */}
+            <div className="hidden md:grid md:grid-cols-[1fr_auto] md:gap-4 md:h-full">
+              {/* Grid de miniaturas al lateral izquierdo */}
+              {images.length > 1 && (
+                <div className="grid grid-cols-1 gap-2 content-start w-[80px] overflow-y-auto pr-1">
+                  {images.slice(0, 8).map((src, idx) => (
+                    <button
+                      key={idx}
+                      className={`w-full aspect-square overflow-hidden rounded-lg transition-transform ${
+                        idx === activeIndex
+                          ? "ring-2 ring-blue-500 scale-105"
+                          : "ring-1 ring-gray-200 hover:ring-gray-400 hover:scale-105"
+                      }`}
+                      onClick={() => setActiveIndex(idx)}
+                      aria-label={`Imagen ${idx + 1}`}
+                    >
+                      <img src={src} alt={`thumb-${idx + 1}`} className="object-cover w-full h-full" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Imagen principal */}
+              <div
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-b from-gray-50 to-white flex items-start justify-center w-full md:self-start md:max-h-[calc(100vh-220px)]"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (images.length > 1) {
+                    if (e.key === 'ArrowLeft') setActiveIndex((i) => (i - 1 + images.length) % images.length);
+                    if (e.key === 'ArrowRight') setActiveIndex((i) => (i + 1) % images.length);
+                  }
+                }}
+              >
+                <img
+                  src={images[activeIndex]}
+                  alt={(product.title || product.nombre) + " - imagen " + (activeIndex + 1)}
+                  className="object-contain w-full h-full max-h-full transition-transform duration-300 ease-out group-hover:scale-105"
+                />
+                {images.length > 1 && (
+                  <div className="absolute px-2 py-1 text-xs font-semibold text-white bg-black/40 rounded top-3 right-3">
+                    {activeIndex + 1}/{images.length}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile: imagen principal + tira horizontal de miniaturas abajo */}
+            <div className="md:hidden flex flex-col h-full gap-3">
+              <div
+                className="group relative overflow-hidden rounded-xl bg-gradient-to-b from-gray-50 to-white flex-1 flex items-start justify-center min-h-[280px]"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (images.length > 1) {
+                    if (e.key === 'ArrowLeft') setActiveIndex((i) => (i - 1 + images.length) % images.length);
+                    if (e.key === 'ArrowRight') setActiveIndex((i) => (i + 1) % images.length);
+                  }
+                }}
+              >
+                <img
+                  src={images[activeIndex]}
+                  alt={(product.title || product.nombre) + " - imagen " + (activeIndex + 1)}
+                  className="object-contain w-full h-full max-h-full"
+                />
+                {images.length > 1 && (
+                  <>
+                    <div className="absolute px-2 py-1 text-xs font-semibold text-white bg-black/40 rounded top-3 right-3">
+                      {activeIndex + 1}/{images.length}
+                    </div>
+                    <button
+                      className="absolute left-3 top-1/2 -translate-y-1/2 h-9 w-9 grid place-items-center rounded-full bg-white/90 hover:bg-white text-gray-800 shadow-md"
+                      onClick={() => setActiveIndex((i) => (i - 1 + images.length) % images.length)}
+                      aria-label="Anterior"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 grid place-items-center rounded-full bg-white/90 hover:bg-white text-gray-800 shadow-md"
+                      onClick={() => setActiveIndex((i) => (i + 1) % images.length)}
+                      aria-label="Siguiente"
+                    >
+                      ›
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {images.length > 1 && (
+                <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                  {images.slice(0, 6).map((src, idx) => (
+                    <button
+                      key={idx}
+                      className={`flex-shrink-0 w-16 h-16 overflow-hidden rounded-md transition-all ${
+                        idx === activeIndex
+                          ? "ring-2 ring-blue-500 scale-105"
+                          : "ring-1 ring-gray-200 hover:ring-gray-400"
+                      }`}
+                      onClick={() => setActiveIndex(idx)}
+                      aria-label={`Imagen ${idx + 1}`}
+                    >
+                      <img src={src} alt={`thumb-${idx + 1}`} className="object-cover w-full h-full" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Columna central: Descripción larga */}
+          <div className="order-3 md:order-2 flex flex-col w-full h-full overflow-hidden pb-2 md:pt-1">
+            <div className="pr-1 flex-1 overflow-auto pb-3">
+              <h2 className="mb-2 text-base font-semibold text-gray-900 md:sr-only">Descripción</h2>
+              <p className="text-sm md:text-[15px] leading-6 md:leading-7 text-gray-800 font-normal antialiased whitespace-pre-line text-left tracking-normal">
+                {product.description || product.descripcion || ""}
+              </p>
+              {product.details && (
+                <div className="mt-3 text-sm md:text-[15px] leading-6 md:leading-7 text-gray-800 font-normal antialiased whitespace-pre-line text-left tracking-normal">
+                  {product.details}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Columna derecha: Título, precio y acciones */}
+          <aside className="order-2 md:order-3 flex flex-col justify-between w-full h-full overflow-hidden pb-2 md:pt-1">
+            <div className="pr-1 flex-1 overflow-auto pb-3 text-left">
+              <h1 className="mb-2 text-[26px] md:text-3xl font-extrabold tracking-tight text-gray-900">{product.title || product.nombre}</h1>
+              <div className="mb-3">
+                <span className="text-[32px] md:text-4xl font-extrabold text-gray-900">${product.price || product.precio}</span>
+                <span className="ml-2 text-sm text-gray-500 align-super">MXN</span>
+              </div>
+              <div className="mt-1 text-xs text-gray-500">
+                Código: <span className="font-medium text-gray-700">{product.id}</span> ·
+                <span className="uppercase text-gray-600"> {product.category}</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t mt-2 flex-shrink-0 pb-2">
+              <div className="text-sm font-medium text-green-700">{stock > 0 ? `Stock disponible (${stock})` : "Sin stock"}</div>
+
+              {/* Selector de cantidad */}
+              <div className="mt-3 flex items-center gap-3">
+                <span className="text-sm text-gray-700">Cantidad</span>
+                <div className="inline-flex items-center rounded-lg border border-gray-300 overflow-hidden">
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-gray-800 hover:bg-gray-100 disabled:opacity-40"
+                    onClick={() => setQty((q) => Math.max(1, q - 1))}
+                    disabled={qty <= 1}
+                    aria-label="Disminuir cantidad"
+                  >
+                    −
+                  </button>
+                  <input
+                    className="w-12 text-center text-sm py-2 outline-none select-none"
+                    value={qty}
+                    onChange={(e) => {
+                      const v = parseInt(e.target.value, 10);
+                      if (!Number.isNaN(v)) setQty(Math.max(1, Math.min(v, stock || 999)));
+                    }}
+                  />
+                  <button
+                    type="button"
+                    className="px-3 py-2 text-gray-800 hover:bg-gray-100 disabled:opacity-40"
+                    onClick={() => setQty((q) => Math.min((stock || 999), q + 1))}
+                    disabled={stock ? qty >= stock : false}
+                    aria-label="Aumentar cantidad"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-3 grid grid-cols-1 gap-3 mb-2">
+                <button
+                  className="w-full h-12 rounded-lg bg-[#25D366] text-white font-semibold hover:bg-[#1ebe57] transition-colors"
+                  onClick={() => {
+                    const msg = `¡Hola! Quiero comprar:\n\n${product.title || product.nombre} x${qty}\nPrecio unitario: $${(product.price || product.precio)}\n\n¿Podemos coordinar la entrega?`;
+                    window.open(`https://wa.me/528119817118?text=${encodeURIComponent(msg)}`, "_blank");
+                  }}
+                >
+                  Comprar por WhatsApp
+                </button>
+                <button
+                  className="w-full h-12 rounded-lg bg-black text-white font-semibold hover:bg-neutral-900 transition-colors disabled:opacity-60"
+                  onClick={() => addToCart({ ...product, quantity: qty })}
+                  disabled={stock === 0}
+                >
+                  {stock === 0 ? "Sin stock" : "Agregar al carrito"}
+                </button>
+                <button
+                  className="w-full h-11 rounded-lg border border-gray-300 text-gray-700 font-medium hover:bg-gray-50"
+                  onClick={() => navigate(-1)}
+                >
+                  Volver al catálogo
+                </button>
+              </div>
+              <div className="mt-2 text-[11px] text-gray-500">Entrega local en Nuevo León. Coordinamos por WhatsApp.</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
 }

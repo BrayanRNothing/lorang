@@ -11,22 +11,29 @@ import mongoose from 'mongoose'; // Importar mongoose
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const DATA_MODE = process.env.DATA_MODE || 'mongo'; // 'mongo' | 'local'
 
-// Conexión a MongoDB Atlas
-const DB_URI = process.env.MONGO_URI; // Leer la URI de la base de datos desde una variable de entorno
-
-mongoose.connect(DB_URI)
-  .then(() => {
-    console.log('Conectado a MongoDB Atlas');
-    // Iniciar el servidor solo si la conexión a la DB es exitosa
-    app.listen(PORT, () => {
-      console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// Conexión a MongoDB Atlas (solo en modo mongo)
+if (DATA_MODE === 'mongo') {
+  const DB_URI = process.env.MONGO_URI; // Leer la URI de la base de datos desde una variable de entorno
+  mongoose.connect(DB_URI)
+    .then(() => {
+      console.log('Conectado a MongoDB Atlas');
+      app.listen(PORT, () => {
+        console.log(`Servidor (mongo) corriendo en http://localhost:${PORT}`);
+      });
+    })
+    .catch(err => {
+      console.error('Error al conectar a MongoDB Atlas:', err);
+      process.exit(1);
     });
-  })
-  .catch(err => {
-    console.error('Error al conectar a MongoDB Atlas:', err);
-    process.exit(1); // Salir del proceso si no se puede conectar a la DB
+} else {
+  // Modo local: no conectar a DB
+  console.log('Iniciando en modo LOCAL (JSON).');
+  app.listen(PORT, () => {
+    console.log(`Servidor (local) corriendo en http://localhost:${PORT}`);
   });
+}
 
 // Middleware
 app.use(cors());

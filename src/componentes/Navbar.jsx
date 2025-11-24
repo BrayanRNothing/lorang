@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "./CarContext";
-import logoo from "../pics/logoo.png"
+import { useToast } from "./Toast";
+import logoo from "../pics/logoo.png";
 
 export default function Navbar() {
   const { cart, removeFromCart, addToCart, removeAllFromCart, clearCart } = useCart();
+  const { addToast } = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hideNav, setHideNav] = useState(0);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [cartOpen, setCartOpen] = useState(false);
   const [empresaDropdown, setEmpresaDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Línea 15
@@ -15,27 +15,44 @@ export default function Navbar() {
   const location = useLocation();
   // Estado para controlar la animación del logo
   const [logoSpin, setLogoSpin] = useState(false);
+  // Estado para el blur
+  const [hasBlur, setHasBlur] = useState(false);
 
-  // Efecto para ocultar navbar al hacer scroll
+  // Usar Intersection Observer para detectar cuando sales de la primera sección (solo en Inicio)
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY && window.scrollY > 50) {
-        setHideNav(true);
-      } else {
-        setHideNav(false);
-      }
-      setLastScrollY(window.scrollY);
-    };
+    // Si NO estamos en inicio, siempre blur
+    if (location.pathname !== '/') {
+      setHasBlur(true);
+      return;
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
+    // En inicio, usar Intersection Observer
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // Si la primera sección NO está visible, activar blur
+        setHasBlur(!entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px'
+      }
+    );
+
+    const firstSection = document.querySelector('section');
+    if (firstSection) {
+      observer.observe(firstSection);
+    }
+
+    return () => {
+      if (firstSection) {
+        observer.unobserve(firstSection);
+      }
+    };
+  }, [location.pathname]);
 
   // Mostrar siempre el navbar cuando el carrito está abierto
   useEffect(() => {
-    if (cartOpen) {
-      setHideNav(false);
-    }
+    // Código si es necesario para el carrito
   }, [cartOpen]);
 
   // Cierra el dropdown si se hace click fuera
@@ -62,19 +79,43 @@ export default function Navbar() {
   // Calcular total $
   const totalPrice = cart.reduce((acc, item) => acc + (item.price || item.precio) * item.quantity, 0);
 
+  const isLightPage = location.pathname.startsWith('/Catalogo') || location.pathname.startsWith('/producto');
+  const navLinkClass = isLightPage && hasBlur
+    ? "text-gray-800 text-lg hover:text-blue-600 transition-colors duration-200 font-medium"
+    : "text-white text-lg hover:text-gray-300 transition-colors duration-200";
+  const logoTextClass = isLightPage && hasBlur
+    ? "ml-2 text-lg font-bold tracking-wide text-gray-900 animate-fade-in-logo"
+    : "ml-2 text-lg font-bold tracking-wide text-white animate-fade-in-logo";
+  const desktopCartIconClass = isLightPage && hasBlur ? "w-6 h-6 text-gray-800" : "w-6 h-6 text-white";
+  const mobileButtonClass = isLightPage && hasBlur ? "p-2 mr-2 text-gray-800 rounded focus:outline-none" : "p-2 mr-2 text-white rounded focus:outline-none";
+  const mobileCartIconClass = isLightPage && hasBlur ? "text-gray-800 w-7 h-7" : "text-white w-7 h-7";
+  const mobileMenuLinkClass = isLightPage ? "py-2 text-gray-800 rounded hover:bg-blue-50" : "py-2 text-white rounded hover:bg-blue-50";
+
   return (
-    <nav className="w-full overflow-x-hidden absolute top-0 left-0 z-50">
-      <div className="flex items-center h-11.5 w-full">
+    <>
+    <nav 
+      className="w-full overflow-hidden fixed top-0 left-0 z-[100] transition-all duration-500"
+      style={{
+        backgroundColor: hasBlur ? (isLightPage ? 'rgba(255, 255, 255, 0.75)' : 'rgba(10, 10, 10, 0.7)') : 'transparent',
+        backdropFilter: hasBlur ? 'blur(20px) saturate(180%)' : 'none',
+        WebkitBackdropFilter: hasBlur ? 'blur(20px) saturate(180%)' : 'none',
+        borderBottom: hasBlur ? (isLightPage ? '1px solid rgba(229, 231, 235, 0.7)' : '1px solid rgba(255, 255, 255, 0.1)') : '1px solid transparent',
+        boxShadow: hasBlur ? (isLightPage ? '0 8px 32px rgba(0, 0, 0, 0.08)' : '0 8px 32px rgba(0, 0, 0, 0.4)') : 'none'
+      }}
+    >
+      <div className="flex items-center h-11.5 w-full overflow-hidden">
         {/* Logo + Lorang alineado a la izquierda */}
-        <div className="flex items-center flex-shrink-0">
-          <a href="/" className="flex items-center text-xl font-semibold">
-            <img
-              src={logoo}
-              alt="logo"
-              className={`object-contain w-10 h-10 transition-transform duration-700 ease-out ${logoSpin ? 'animate-spin-once' : ''}`}
-              style={{ animationDelay: '0.2s' }}
-            />
-            <span className="ml-2 text-lg font-bold tracking-wide text-white animate-fade-in-logo" style={{ animationDelay: '0.7s' }}>
+        <div className="flex items-center flex-shrink-0 overflow-hidden">
+          <a href="/" className="flex items-center text-xl font-semibold overflow-hidden">
+            <div className="w-10 h-10 flex items-center justify-center overflow-hidden">
+              <img
+                src={logoo}
+                alt="logo"
+                className={`object-contain w-10 h-10 transition-transform duration-700 ease-out ${logoSpin ? 'animate-spin-once' : ''}`}
+                style={{ animationDelay: '0.2s' }}
+              />
+            </div>
+            <span className={logoTextClass} style={{ animationDelay: '0.7s' }}>
               Lorang
             </span>
           </a>
@@ -82,12 +123,12 @@ export default function Navbar() {
         {/* Menú PC (oculto en móvil) */}
         <div className="justify-end flex-1 hidden m-5 md:flex">
           <div className="flex items-center space-x-6">
-            <Link to="/" className="text-white text-lg hover:text-gray-300">Inicio</Link>
-            <Link to="/Catalogo" className="text-white text-lg hover:text-gray-300">Productos</Link>
-            <Link to="/Empresa" className="text-white text-lg hover:text-gray-300">Empresa</Link>
-            <Link to="/Contacto" className="text-white text-lg hover:text-gray-300">Contacto</Link>
+            <Link to="/" className={navLinkClass}>Inicio</Link>
+            <Link to="/Catalogo" className={navLinkClass}>Productos</Link>
+            <Link to="/Empresa" className={navLinkClass}>Empresa</Link>
+            <Link to="/Contacto" className={navLinkClass}>Contacto</Link>
             <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className={desktopCartIconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
               </svg>
               {totalItems > 0 && (
@@ -99,7 +140,7 @@ export default function Navbar() {
         {/* Menú móvil: hamburguesa y carrito */}
         <div className="flex items-center justify-end flex-1 m-2 md:hidden">
           <button
-            className="p-2 mr-2 text-white rounded focus:outline-none"
+            className={mobileButtonClass}
             onClick={() => setMobileMenuOpen((v) => !v)}
             aria-label="Abrir menú"
           >
@@ -109,7 +150,7 @@ export default function Navbar() {
             </svg>
           </button>
           <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
-            <svg xmlns="http://www.w3.org/2000/svg" className="text-white w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" className={mobileCartIconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
               </svg>
               {totalItems > 0 && (
@@ -124,14 +165,16 @@ export default function Navbar() {
         ${mobileMenuOpen ? 'animate-slide-down opacity-100 pointer-events-auto' : 'animate-slide-up opacity-0 pointer-events-none'}`}
         style={{height: mobileMenuOpen ? 'auto' : 0, overflow: 'hidden'}}
         >
-          <Link to="/" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
-          <Link to="/Catalogo" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Productos</Link>
-          <Link to="/Empresa" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Empresa</Link>
-          <Link to="/Contacto" className="py-2 text-white rounded hover:bg-blue-50" onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
+          <Link to="/" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
+          <Link to="/Catalogo" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Productos</Link>
+          <Link to="/Empresa" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Empresa</Link>
+          <Link to="/Contacto" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
         </div>
-      {/* Drawer lateral del carrito y fondo para cerrar drawer se mantienen igual */}
+      </nav>
+      
+      {/* Drawer lateral del carrito - FUERA del nav */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-neutral-900 shadow-lg z-[999] transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-80 bg-neutral-900 shadow-2xl z-[9999] transition-transform duration-300 ${
           cartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -180,7 +223,10 @@ export default function Navbar() {
                     {/* Botón para quitar todos */}
                     <button
                       className="btn btn-xs btn-circle btn-error"
-                      onClick={() => removeAllFromCart(item.id)}
+                      onClick={() => {
+                        removeAllFromCart(item.id);
+                        addToast(`${item.title || item.nombre} eliminado del carrito`, 'info');
+                      }}
                       title="Quitar todos"
                     >
                       <svg
@@ -228,12 +274,12 @@ export default function Navbar() {
       {/* Fondo para cerrar el drawer */}
       {cartOpen && (
         <div
-          className="fixed h-screen inset-0 z-[998] backdrop-blur-sm bg-opacity-30"
+          className="fixed h-screen inset-0 z-[9998] backdrop-blur-sm bg-black/30"
           onClick={() => setCartOpen(false)}
         />
       )}
       {/* --- Fin Drawer --- */}
-    </nav>
+    </>
   );
 }
 
