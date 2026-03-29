@@ -2,9 +2,9 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useCart } from "./CarContext";
 import { products as localProducts } from "./productosData";
+import { apiUrl } from "../lib/api";
 
 export default function ProductView() {
-  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -68,13 +68,13 @@ export default function ProductView() {
           return;
         }
         // 1) Intento directo por ID
-  const byId = await fetch(`${API_BASE}/api/products/${id}`);
+  const byId = await fetch(apiUrl(`/api/products/${id}`));
         if (byId.ok) {
           const data = await byId.json();
           if (!cancelled) setProduct(data || null);
         } else {
           // 2) Fallback: traer todos y buscar
-          const all = await fetch(`${API_BASE}/api/products`);
+          const all = await fetch(apiUrl('/api/products'));
           if (all.ok) {
             const list = await all.json();
             const found = Array.isArray(list) ? list.find((p) => String(p.id) === String(id)) : null;

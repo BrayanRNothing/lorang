@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { products as localProducts } from "./productosData";
 import ProductSkeleton from "./ProductSkeleton";
+import { apiUrl } from "../lib/api";
 
 const categories = [
   { value: "all", label: "Todas" },
@@ -13,7 +14,6 @@ const categories = [
 ];
 
 export default function Catalogo() {
-  const API_BASE = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
@@ -23,10 +23,10 @@ export default function Catalogo() {
     let isMounted = true;
     async function load() {
       try {
-        const res = await fetch(`${API_BASE}/api/products`);
+        const res = await fetch(apiUrl('/api/products'));
         const data = await res.json();
         if (isMounted) {
-          if (Array.isArray(data) && data.length) {
+          if (Array.isArray(data)) {
             setProducts(data);
           } else {
             setProducts(localProducts);

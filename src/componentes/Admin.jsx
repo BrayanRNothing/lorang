@@ -585,21 +585,6 @@ export default function AdminProtegido() {
         exito={exito}
         cargando={cargando}
       />
-
-      {/* Código generado para copiar */}
-      {productos.length > 0 && (
-        <div className="mt-12 bg-neutral-900/50 border border-neutral-800 rounded-2xl p-6">
-          <h3 className="text-xl font-bold text-white mb-4">
-            📋 Código para productosData.js
-          </h3>
-          <p className="text-sm text-gray-400 mb-4">
-            Copia este código y reemplaza el contenido de <code className="px-2 py-1 bg-neutral-800 rounded">src/componentes/productosData.js</code>
-          </p>
-          <pre className="bg-neutral-950 border border-neutral-700 rounded-xl p-4 overflow-x-auto text-sm text-gray-300">
-            {`export const products = ${JSON.stringify(productos, null, 2)};`}
-          </pre>
-        </div>
-      )}
     </PageContainer>
   );
 }

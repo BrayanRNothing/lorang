@@ -1,4 +1,4 @@
-const rawBaseUrl = import.meta.env.VITE_BACKEND_URL || '';
+const rawBaseUrl = (import.meta.env.VITE_BACKEND_URL || '').trim();
 const LORANG_API_PREFIX = '/api/lorang';
 
 export const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');
