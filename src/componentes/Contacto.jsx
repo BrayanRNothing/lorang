@@ -2,204 +2,156 @@ import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaWhatsapp, FaFacebook, FaInstagra
 
 export default function Contacto() {
   return (
-    <section className="w-full min-h-screen bg-neutral-950 text-white pt-24 pb-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-            Contáctanos
+    <section className="w-full h-[100dvh] bg-gradient-to-b from-slate-50 via-white to-blue-50 text-slate-900 pt-20 pb-4 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="max-w-7xl 2xl:max-w-[1400px] mx-auto h-full flex flex-col">
+        <div className="mb-5 sm:mb-6 text-center shrink-0">
+          <p className="inline-block px-3 py-1 mb-3 text-[11px] tracking-widest uppercase rounded-full border border-blue-300 bg-blue-100 text-blue-700">
+            Contacto
+          </p>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black leading-tight bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-transparent">
+            Hablemos de tu próximo setup
           </h1>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            ¿Tienes alguna pregunta? Estamos aquí para ayudarte. Envíanos un mensaje o contáctanos directamente.
+          <p className="mt-2 text-xs sm:text-sm lg:text-base text-slate-600 max-w-2xl lg:max-w-3xl mx-auto">
+            Si tienes dudas de productos o pedidos, escríbenos y te respondemos rápido.
           </p>
         </div>
 
-        {/* Grid principal */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          
-          {/* Formulario de contacto */}
-          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 shadow-2xl">
-            <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-              <span className="w-2 h-8 bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"></span>
-              Envíanos un mensaje
-            </h2>
-            <form className="space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5 lg:gap-6 items-stretch flex-1 min-h-0">
+          <aside className="lg:col-span-5 xl:col-span-4 space-y-3 sm:space-y-4 min-h-0">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 h-full flex flex-col shadow-sm">
+              <h2 className="text-base sm:text-lg font-semibold mb-3">Canales directos</h2>
+              <div className="space-y-2.5">
+                <a
+                  href="mailto:LorangMx@gmail.com"
+                  className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 hover:border-blue-400 transition-colors"
+                >
+                  <FaEnvelope className="w-4 h-4 text-blue-400" />
+                  <div>
+                    <p className="text-xs text-slate-500">Correo</p>
+                    <p className="text-sm font-medium text-slate-800">LorangMx@gmail.com</p>
+                  </div>
+                </a>
+                <a
+                  href="tel:+528119817118"
+                  className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 hover:border-blue-400 transition-colors"
+                >
+                  <FaPhone className="w-4 h-4 text-blue-400" />
+                  <div>
+                    <p className="text-xs text-slate-500">Teléfono</p>
+                    <p className="text-sm font-medium text-slate-800">+52 811 981 7118</p>
+                  </div>
+                </a>
+                <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5">
+                  <FaMapMarkerAlt className="w-4 h-4 text-blue-400" />
+                  <div>
+                    <p className="text-xs text-slate-500">Ubicación</p>
+                    <p className="text-sm font-medium text-slate-800">Monterrey, Nuevo León, México</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-3 rounded-xl border border-blue-200 bg-blue-50 px-3.5 py-2.5">
+                <div className="flex items-center gap-2">
+                  <FaClock className="w-3.5 h-3.5 text-blue-600" />
+                  <p className="text-xs sm:text-sm text-slate-600">L-V 9:00-6:00 | Sáb 10:00-2:00</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2.5 mt-3">
+              <a
+                href="https://wa.me/528119817118"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-slate-200 bg-white p-2.5 sm:p-3 text-center hover:border-green-500/70 hover:bg-green-500/10 transition-all"
+              >
+                <FaWhatsapp className="w-5 h-5 mx-auto text-green-500" />
+                <p className="text-[11px] mt-1.5 text-slate-600">WhatsApp</p>
+              </a>
+              <a
+                href="https://www.facebook.com/lorangmx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-slate-200 bg-white p-2.5 sm:p-3 text-center hover:border-blue-500/70 hover:bg-blue-500/10 transition-all"
+              >
+                <FaFacebook className="w-5 h-5 mx-auto text-blue-500" />
+                <p className="text-[11px] mt-1.5 text-slate-600">Facebook</p>
+              </a>
+              <a
+                href="https://www.instagram.com/lorang_mx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-slate-200 bg-white p-2.5 sm:p-3 text-center hover:border-pink-500/70 hover:bg-pink-500/10 transition-all"
+              >
+                <FaInstagram className="w-5 h-5 mx-auto text-pink-500" />
+                <p className="text-[11px] mt-1.5 text-slate-600">Instagram</p>
+              </a>
+            </div>
+            </div>
+          </aside>
+
+          <div className="lg:col-span-7 xl:col-span-8 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 md:p-6 xl:p-7 shadow-xl shadow-slate-200/70 h-full flex flex-col min-h-0">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-4">Envíanos un mensaje</h2>
+            <form className="space-y-3.5 sm:space-y-4 flex-1 flex flex-col">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 xl:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Nombre completo
-                  </label>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-600 mb-1.5">Nombre completo</label>
                   <input
                     type="text"
                     placeholder="Tu nombre"
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Email
-                  </label>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-600 mb-1.5">Email</label>
                   <input
                     type="email"
                     placeholder="tu@email.com"
-                    className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                     required
                   />
                 </div>
               </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  placeholder="+52 81 1234 5678"
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 xl:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-600 mb-1.5">Teléfono</label>
+                  <input
+                    type="tel"
+                    placeholder="+52 81 1234 5678"
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-slate-600 mb-1.5">Asunto</label>
+                  <input
+                    type="text"
+                    placeholder="Pedido, dudas, colaboración..."
+                    className="w-full px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                    required
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Asunto
-                </label>
-                <input
-                  type="text"
-                  placeholder="¿Sobre qué quieres hablar?"
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
-                  Mensaje
-                </label>
+              <div className="flex-1 min-h-0">
+                <label className="block text-xs sm:text-sm font-medium text-slate-600 mb-1.5">Mensaje</label>
                 <textarea
-                  placeholder="Cuéntanos en qué podemos ayudarte..."
-                  rows={5}
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  rows={4}
+                  placeholder="Cuéntanos en qué te podemos ayudar"
+                  className="w-full h-full min-h-[110px] max-h-[180px] px-3.5 py-2.5 rounded-lg bg-white border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
                   required
                 />
               </div>
 
-              <button 
+              <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5"
+                className="w-full sm:w-auto min-w-[180px] px-5 py-2.5 rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 transition-all"
               >
                 Enviar mensaje
               </button>
-              
-              <p className="text-sm text-gray-500 text-center">
-                Te responderemos lo antes posible
-              </p>
+
+              <p className="text-xs sm:text-sm text-slate-500">Tiempo de respuesta aproximado: 24 a 48 horas.</p>
             </form>
-          </div>
-
-          {/* Información de contacto */}
-          <div className="space-y-6">
-            
-            {/* Tarjetas de contacto directo */}
-            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
-              <div className="flex items-start gap-4">
-                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
-                  <FaEnvelope className="w-6 h-6 text-blue-500" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-1">Email</h3>
-                  <a href="mailto:LorangMx@gmail.com" className="text-gray-400 hover:text-blue-500 transition-colors">
-                    LorangMx@gmail.com
-                  </a>
-                  <p className="text-sm text-gray-600 mt-1">Respuesta en 24-48 horas</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
-              <div className="flex items-start gap-4">
-                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
-                  <FaPhone className="w-6 h-6 text-blue-500" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-1">Teléfono</h3>
-                  <a href="tel:+528119817118" className="text-gray-400 hover:text-blue-500 transition-colors">
-                    +52 811 981 7118
-                  </a>
-                  <p className="text-sm text-gray-600 mt-1">Lun - Sáb: 9:00am - 6:00pm</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-neutral-900 to-neutral-900/50 border border-neutral-800 rounded-2xl p-6 hover:border-blue-500/50 transition-all duration-300 group">
-              <div className="flex items-start gap-4">
-                <div className="bg-blue-500/10 p-3 rounded-lg group-hover:bg-blue-500/20 transition-all">
-                  <FaMapMarkerAlt className="w-6 h-6 text-blue-500" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-1">Ubicación</h3>
-                  <p className="text-gray-400">Monterrey, Nuevo León</p>
-                  <p className="text-sm text-gray-600 mt-1">México</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Horario */}
-            <div className="bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 rounded-2xl p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <FaClock className="w-5 h-5 text-blue-500" />
-                <h3 className="text-lg font-semibold">Horario de atención</h3>
-              </div>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Lunes - Viernes</span>
-                  <span className="text-white font-medium">9:00am - 6:00pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Sábado</span>
-                  <span className="text-white font-medium">10:00am - 2:00pm</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Domingo</span>
-                  <span className="text-gray-600">Cerrado</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Redes sociales */}
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
-              <h3 className="text-lg font-semibold mb-4">Síguenos en redes</h3>
-              <div className="grid grid-cols-3 gap-3">
-                <a 
-                  href="https://wa.me/528119817118" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-green-500/10 border border-neutral-700 hover:border-green-500 transition-all group"
-                >
-                  <FaWhatsapp className="w-7 h-7 text-green-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs text-gray-400 group-hover:text-green-500">WhatsApp</span>
-                </a>
-                <a 
-                  href="https://www.facebook.com/lorangmx" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-blue-500/10 border border-neutral-700 hover:border-blue-500 transition-all group"
-                >
-                  <FaFacebook className="w-7 h-7 text-blue-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs text-gray-400 group-hover:text-blue-500">Facebook</span>
-                </a>
-                <a 
-                  href="https://www.instagram.com/lorang_mx" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center gap-2 p-4 bg-neutral-800 rounded-xl hover:bg-pink-500/10 border border-neutral-700 hover:border-pink-500 transition-all group"
-                >
-                  <FaInstagram className="w-7 h-7 text-pink-500 group-hover:scale-110 transition-transform" />
-                  <span className="text-xs text-gray-400 group-hover:text-pink-500">Instagram</span>
-                </a>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>

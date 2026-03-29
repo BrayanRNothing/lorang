@@ -4,14 +4,14 @@ import l2Image from '../pics/l2.png'; // Importa la imagen
 
 export default function Section3() {
   return (
-    <section className="relative flex items-center justify-center w-full min-h-screen bg-gradient-to-b from-neutral-950 to-black text-white overflow-hidden">
+    <section className="relative flex items-center justify-center w-full min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900 overflow-hidden">
       {/* Contenido de texto (izquierda) - dentro del contenedor principal */}
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-start min-h-screen z-10">
-        <div className="flex flex-col items-center md:items-start text-center md:text-left p-8 md:p-0 md:w-1/2">
+        <div className="flex flex-col items-center md:items-start text-center md:text-left p-8 md:p-0 md:w-1/2 md:pr-8">
           <h2 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
             ¿Qué esperas para <span className="text-blue-500">rodar</span>?
           </h2>
-          <p className="max-w-xl text-lg md:text-xl leading-relaxed mb-10">
+          <p className="max-w-xl text-lg md:text-xl leading-relaxed mb-10 text-slate-600">
             Descubre la diferencia Lorang. Nuestros rodamientos están diseñados para llevar tu patinada al siguiente nivel. Velocidad, durabilidad y suavidad inigualable te esperan.
           </p>
           <Link 
@@ -34,7 +34,7 @@ export default function Section3() {
           style={{ objectPosition: 'right center' }} 
         />
         {/* Opcional: Overlay sutil para que el texto de la izquierda resalte más si la imagen es muy clara */}
-        <div className="absolute inset-0 bg-black opacity-20 md:hidden"></div> 
+        <div className="absolute inset-0 bg-white/20 md:hidden"></div> 
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
-const rawBaseUrl = (import.meta.env.VITE_BACKEND_URL || '').trim();
+const DEFAULT_BACKEND_URL = 'https://focused-presence-production-6e28.up.railway.app';
+const rawBaseUrl = (import.meta.env.VITE_BACKEND_URL || DEFAULT_BACKEND_URL).trim();
 const LORANG_API_PREFIX = '/api/lorang';
 
 export const API_BASE_URL = rawBaseUrl.replace(/\/+$/, '');

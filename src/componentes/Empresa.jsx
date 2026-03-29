@@ -1,18 +1,53 @@
 import logoo from "../pics/logoo.png";
 
 export default function Empresa() {
+  const hitos = [
+    {
+      year: "2018",
+      title: "Nace Lorang",
+      phase: "Inicio",
+      color: "from-cyan-500 to-blue-600",
+      glow: "shadow-cyan-500/40",
+      text: "Lanzamos nuestra primera coleccion de ropa para skaters: comoda, resistente y con identidad urbana que conecto de inmediato con la escena local.",
+    },
+    {
+      year: "2020",
+      title: "Abre Lorang SkateShop",
+      phase: "Comunidad",
+      color: "from-orange-500 to-amber-600",
+      glow: "shadow-orange-500/40",
+      text: "Abrimos nuestra primera tienda fisica, un punto de encuentro para riders, eventos y apoyo real a talento emergente.",
+    },
+    {
+      year: "2023",
+      title: "Lanzamiento de Rodamientos",
+      phase: "Expansion",
+      color: "from-emerald-500 to-green-600",
+      glow: "shadow-emerald-500/40",
+      text: "Despues de anos de pruebas, presentamos los primeros rodamientos Lorang con calidad premium y presencia en todo Mexico.",
+    },
+    {
+      year: "2026",
+      title: "Evolucion Digital",
+      phase: "Proyeccion",
+      color: "from-fuchsia-500 to-pink-600",
+      glow: "shadow-fuchsia-500/40",
+      text: "Consolidamos la experiencia online para acercar la marca a mas skaters y fortalecer una comunidad conectada en todo el pais.",
+    },
+  ];
+
   return (
-    <section className="w-full min-h-screen bg-neutral-950 text-white pt-20 pb-16">
+    <section className="w-full min-h-screen bg-gradient-to-b from-slate-50 via-white to-blue-50/40 text-slate-900 pt-20 pb-16">
       
       {/* Hero section */}
       <div className="relative overflow-hidden">
         {/* Fondo con gradiente animado */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 via-transparent to-purple-600/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-300/20 via-transparent to-cyan-300/20" />
         
         <div className="relative max-w-6xl mx-auto px-4 py-20">
           <div className="text-center">
             <div className="inline-block mb-8 relative">
-              <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full" />
+              <div className="absolute inset-0 bg-blue-400/20 blur-3xl rounded-full" />
               <img
                 src={logoo}
                 alt="Lorang"
@@ -20,7 +55,7 @@ export default function Empresa() {
               />
             </div>
             <h1 className="text-5xl md:text-7xl font-black mb-6">
-              <span className="bg-gradient-to-r from-white via-blue-400 to-blue-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-slate-900 via-blue-700 to-cyan-600 bg-clip-text text-transparent">
                 El Origen de Lorang
               </span>
             </h1>
@@ -33,18 +68,18 @@ export default function Empresa() {
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="space-y-6">
-            <div className="relative p-8 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl border border-neutral-700 overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+            <div className="relative p-8 bg-gradient-to-br from-white to-slate-50 rounded-2xl border border-slate-200 overflow-hidden group hover:border-blue-400/60 transition-all duration-300 shadow-sm">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all" />
-              <p className="text-gray-300 text-lg leading-relaxed relative z-10">
+              <p className="text-slate-700 text-lg leading-relaxed relative z-10">
                 Lorang nació de la pasión de <span className="font-bold text-blue-400">Angel Mtz</span>, skater desde 2009. Creció rodeado de las marcas más icónicas del skate y desde joven mostró una visión clara: crear su propia marca.
               </p>
             </div>
           </div>
           
           <div className="space-y-6">
-            <div className="relative p-8 bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl border border-neutral-700 overflow-hidden group hover:border-blue-500/50 transition-all duration-300">
+            <div className="relative p-8 bg-gradient-to-br from-white to-slate-50 rounded-2xl border border-slate-200 overflow-hidden group hover:border-blue-400/60 transition-all duration-300 shadow-sm">
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl group-hover:bg-purple-500/20 transition-all" />
-              <p className="text-gray-300 text-lg leading-relaxed relative z-10">
+              <p className="text-slate-700 text-lg leading-relaxed relative z-10">
                 Tras varios intentos y años de aprendizaje, en 2018 decidió dar vida a Lorang, una marca mexicana con el objetivo de elevar la cultura skate y ofrecer productos de calidad mundial.
               </p>
             </div>
@@ -54,72 +89,62 @@ export default function Empresa() {
 
       {/* Timeline */}
       <div className="max-w-6xl mx-auto px-4 py-16">
-        <h2 className="text-4xl md:text-5xl font-black text-center mb-16">
-          <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-            Nuestra Historia
-          </span>
-        </h2>
-        
-        <div className="relative">
-          {/* Línea vertical decorativa */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-blue-500" />
-          
-          <div className="space-y-12">
-            {/* 2018 */}
-            <div className="relative grid lg:grid-cols-2 gap-8 items-center">
-              <div className="lg:text-right lg:pr-16">
-                <div className="inline-block">
-                  <span className="px-6 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-lg font-bold rounded-full shadow-lg shadow-blue-500/50">
-                    2018
-                  </span>
-                </div>
-                <h3 className="text-3xl font-bold text-white mt-4 mb-3">Nace Lorang</h3>
-                <p className="text-gray-400 leading-relaxed text-lg">
-                  Lorang lanza su primera colección de ropa diseñada especialmente para skaters. Prendas cómodas, resistentes y con diseños urbanos que rápidamente se volvieron favoritas en la escena local.
-                </p>
-              </div>
-              <div className="hidden lg:block" />
-              
-              {/* Punto en la línea */}
-              <div className="hidden lg:block absolute left-1/2 top-8 w-4 h-4 bg-blue-500 rounded-full -translate-x-1/2 shadow-lg shadow-blue-500/50" />
-            </div>
+        <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-blue-50 p-7 md:p-12 shadow-sm">
+          <div className="absolute -top-28 -left-20 h-72 w-72 rounded-full bg-cyan-500/15 blur-3xl" />
+          <div className="absolute -bottom-28 -right-20 h-72 w-72 rounded-full bg-fuchsia-500/15 blur-3xl" />
 
-            {/* 2020 */}
-            <div className="relative grid lg:grid-cols-2 gap-8 items-center">
-              <div className="hidden lg:block" />
-              <div className="lg:pl-16">
-                <div className="inline-block">
-                  <span className="px-6 py-2 bg-gradient-to-r from-amber-600 to-orange-600 text-white text-lg font-bold rounded-full shadow-lg shadow-amber-500/50">
-                    2020
-                  </span>
-                </div>
-                <h3 className="text-3xl font-bold text-white mt-4 mb-3">Lorang SkateShop</h3>
-                <p className="text-gray-400 leading-relaxed text-lg">
-                  Abrimos nuestra primera tienda física: Lorang SkateShop. Un punto de encuentro para la comunidad, donde apoyamos eventos locales y patrocinamos a jóvenes talentos.
-                </p>
-              </div>
-              
-              {/* Punto en la línea */}
-              <div className="hidden lg:block absolute left-1/2 top-8 w-4 h-4 bg-amber-500 rounded-full -translate-x-1/2 shadow-lg shadow-amber-500/50" />
-            </div>
+          <div className="relative z-10 mb-12 text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-cyan-700">Timeline</p>
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900">
+              La Ruta de <span className="bg-gradient-to-r from-cyan-700 to-fuchsia-700 bg-clip-text text-transparent">Lorang</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-3xl text-slate-600 text-lg">
+              Cada etapa representa un salto real de la marca: del barrio al alcance nacional, siempre junto a la comunidad skate.
+            </p>
+          </div>
 
-            {/* 2023 */}
-            <div className="relative grid lg:grid-cols-2 gap-8 items-center">
-              <div className="lg:text-right lg:pr-16">
-                <div className="inline-block">
-                  <span className="px-6 py-2 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-lg font-bold rounded-full shadow-lg shadow-green-500/50">
-                    2023
-                  </span>
-                </div>
-                <h3 className="text-3xl font-bold text-white mt-4 mb-3">Primeros Rodamientos</h3>
-                <p className="text-gray-400 leading-relaxed text-lg">
-                  Tras años de desarrollo, lanzamos nuestros primeros rodamientos Lorang. Fabricados con materiales de alta calidad, posicionaron a la marca a nivel nacional.
-                </p>
-              </div>
-              <div className="hidden lg:block" />
-              
-              {/* Punto en la línea */}
-              <div className="hidden lg:block absolute left-1/2 top-8 w-4 h-4 bg-green-500 rounded-full -translate-x-1/2 shadow-lg shadow-green-500/50" />
+          <div className="relative">
+            <div className="absolute left-3 top-0 h-full w-px bg-gradient-to-b from-cyan-400/40 via-slate-300 to-fuchsia-400/40 md:left-1/2 md:-translate-x-1/2" />
+
+            <div className="space-y-8 md:space-y-12">
+              {hitos.map((item, index) => {
+                const isLeft = index % 2 === 0;
+
+                return (
+                  <article key={item.year} className="relative grid grid-cols-1 md:grid-cols-2 md:gap-12">
+                    <div
+                      className={`relative rounded-2xl border border-slate-200 bg-white/80 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 ${
+                        isLeft ? "md:col-start-1 md:text-right" : "md:col-start-2"
+                      }`}
+                    >
+                      <div className="mb-4 flex flex-wrap items-center gap-2 md:justify-end">
+                        {!isLeft && <span className="inline-flex h-2.5 w-2.5 rounded-full bg-slate-300" />}
+                        <span className={`inline-block rounded-full bg-gradient-to-r ${item.color} px-4 py-1 text-sm font-extrabold uppercase tracking-wider text-white shadow-lg ${item.glow}`}>
+                          {item.year}
+                        </span>
+                        <span className="rounded-full border border-slate-300 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-slate-600">
+                          {item.phase}
+                        </span>
+                        {isLeft && <span className="inline-flex h-2.5 w-2.5 rounded-full bg-slate-300" />}
+                      </div>
+
+                      <h3 className="mb-3 text-2xl md:text-3xl font-black text-slate-900">{item.title}</h3>
+                      <p className="text-slate-700 leading-relaxed text-base md:text-lg">{item.text}</p>
+
+                      <div className="mt-6 h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+                        <div
+                          className={`h-full rounded-full bg-gradient-to-r ${item.color}`}
+                          style={{ width: `${58 + index * 12}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      className={`pointer-events-none absolute left-3 top-8 h-4 w-4 rounded-full border-4 border-slate-50 bg-gradient-to-r ${item.color} shadow-lg ${item.glow} md:left-1/2 md:-translate-x-1/2`}
+                    />
+                  </article>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -127,17 +152,17 @@ export default function Empresa() {
 
       {/* Visión */}
       <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900/30 via-blue-800/20 to-purple-900/30 border border-blue-500/30 p-12 md:p-16">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-100/80 via-white to-purple-100/70 border border-blue-200/70 p-12 md:p-16 shadow-sm">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-400/15 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-400/15 rounded-full blur-3xl" />
           
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-black mb-6">
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-700 to-purple-700 bg-clip-text text-transparent">
                 Nuestra Visión
               </span>
             </h2>
-            <p className="text-gray-300 text-xl leading-relaxed max-w-4xl">
+            <p className="text-slate-700 text-xl leading-relaxed max-w-4xl">
               En Lorang, nuestra visión es convertirnos en una marca líder en el mercado de rodamientos y accesorios para skaters, tanto a nivel nacional como internacional. Nos enfocamos en la calidad, la innovación y el apoyo a la comunidad, buscando ser un aliado de talentos mexicanos y brindar oportunidades a skaters emergentes para que alcancen su máximo potencial.
             </p>
           </div>
@@ -146,46 +171,46 @@ export default function Empresa() {
 
       {/* Rodamiento - Info técnica */}
       <div className="max-w-6xl mx-auto px-4 py-16">
-        <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-3xl p-10 md:p-14 border border-neutral-700">
+        <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl p-10 md:p-14 border border-slate-200 shadow-sm">
           <h2 className="text-3xl md:text-4xl font-black mb-8">
-            <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-slate-900 to-slate-500 bg-clip-text text-transparent">
               ¿Cómo es un rodamiento Lorang?
             </span>
           </h2>
-          <p className="text-gray-400 mb-10 text-lg">
+          <p className="text-slate-600 mb-10 text-lg">
             Nuestros rodamientos están diseñados para máxima velocidad, resistencia y suavidad. Cada componente cumple una función esencial:
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-start gap-4 p-6 bg-neutral-800/50 rounded-xl border border-neutral-700 hover:border-blue-500/50 transition-all">
+            <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-400/60 transition-all">
               <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-white text-lg mb-1">Anillos</h4>
-                <p className="text-gray-400">Acero para mayor durabilidad</p>
+                <h4 className="font-bold text-slate-900 text-lg mb-1">Anillos</h4>
+                <p className="text-slate-600">Acero para mayor durabilidad</p>
               </div>
             </div>
             
-            <div className="flex items-start gap-4 p-6 bg-neutral-800/50 rounded-xl border border-neutral-700 hover:border-blue-500/50 transition-all">
+            <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-400/60 transition-all">
               <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-white text-lg mb-1">Bolas</h4>
-                <p className="text-gray-400">De Tungsteno para 0 deformaciones</p>
+                <h4 className="font-bold text-slate-900 text-lg mb-1">Bolas</h4>
+                <p className="text-slate-600">De Tungsteno para 0 deformaciones</p>
               </div>
             </div>
             
-            <div className="flex items-start gap-4 p-6 bg-neutral-800/50 rounded-xl border border-neutral-700 hover:border-blue-500/50 transition-all">
+            <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-400/60 transition-all">
               <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-white text-lg mb-1">Retenedor</h4>
-                <p className="text-gray-400">Mantiene la lubricación y protege</p>
+                <h4 className="font-bold text-slate-900 text-lg mb-1">Retenedor</h4>
+                <p className="text-slate-600">Mantiene la lubricación y protege</p>
               </div>
             </div>
             
-            <div className="flex items-start gap-4 p-6 bg-neutral-800/50 rounded-xl border border-neutral-700 hover:border-blue-500/50 transition-all">
+            <div className="flex items-start gap-4 p-6 bg-slate-50 rounded-xl border border-slate-200 hover:border-blue-400/60 transition-all">
               <div className="w-3 h-3 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-white text-lg mb-1">Cubrepolvo</h4>
-                <p className="text-gray-400">Fácil de quitar para mantenimiento</p>
+                <h4 className="font-bold text-slate-900 text-lg mb-1">Cubrepolvo</h4>
+                <p className="text-slate-600">Fácil de quitar para mantenimiento</p>
               </div>
             </div>
           </div>

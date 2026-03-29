@@ -1,6 +1,19 @@
 # Lorang
 ## Backend dual: MongoDB o JSON local
 
+### Importante: Local vs Produccion
+
+- `DATA_MODE=local` en `backend/.env` solo afecta tu servidor local.
+- Tu celular/laptop en la URL publica usan el backend desplegado (no tu PC).
+- Si quieres que se vea para todos, el producto debe guardarse en el backend de produccion.
+- En Vercel/hosting, configura `VITE_BACKEND_URL` en variables de entorno del proyecto (no solo en tu `.env` local).
+
+Recomendado para este proyecto:
+
+```
+VITE_BACKEND_URL=https://focused-presence-production-6e28.up.railway.app
+```
+
 El backend ahora soporta dos modos de almacenamiento, seleccionables por variable de entorno `DATA_MODE`:
 
 - `mongo`: usa MongoDB Atlas a través de Mongoose (como antes).

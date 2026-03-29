@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "./CarContext";
 import { useToast } from "./Toast";
@@ -9,9 +9,7 @@ export default function Navbar() {
   const { addToast } = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
-  const [empresaDropdown, setEmpresaDropdown] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Línea 15
-  const empresaRef = useRef();
   const location = useLocation();
   // Estado para controlar la animación del logo
   const [logoSpin, setLogoSpin] = useState(false);
@@ -55,17 +53,6 @@ export default function Navbar() {
     // Código si es necesario para el carrito
   }, [cartOpen]);
 
-  // Cierra el dropdown si se hace click fuera
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (empresaRef.current && !empresaRef.current.contains(event.target)) {
-        setEmpresaDropdown(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   // Efecto para girar el logo cada vez que cambia la ruta
   useEffect(() => {
     setLogoSpin(true);
@@ -79,7 +66,12 @@ export default function Navbar() {
   // Calcular total $
   const totalPrice = cart.reduce((acc, item) => acc + (item.price || item.precio) * item.quantity, 0);
 
-  const isLightPage = location.pathname.startsWith('/Catalogo') || location.pathname.startsWith('/producto');
+  const isLightPage =
+    location.pathname === '/' ||
+    location.pathname.startsWith('/Catalogo') ||
+    location.pathname.startsWith('/Noticias') ||
+    location.pathname.startsWith('/producto') ||
+    location.pathname.startsWith('/Contacto');
   const navLinkClass = isLightPage && hasBlur
     ? "text-gray-800 text-lg hover:text-blue-600 transition-colors duration-200 font-medium"
     : "text-white text-lg hover:text-gray-300 transition-colors duration-200";
@@ -89,7 +81,9 @@ export default function Navbar() {
   const desktopCartIconClass = isLightPage && hasBlur ? "w-6 h-6 text-gray-800" : "w-6 h-6 text-white";
   const mobileButtonClass = isLightPage && hasBlur ? "p-2 mr-2 text-gray-800 rounded focus:outline-none" : "p-2 mr-2 text-white rounded focus:outline-none";
   const mobileCartIconClass = isLightPage && hasBlur ? "text-gray-800 w-7 h-7" : "text-white w-7 h-7";
-  const mobileMenuLinkClass = isLightPage ? "py-2 text-gray-800 rounded hover:bg-blue-50" : "py-2 text-white rounded hover:bg-blue-50";
+  const mobileMenuLinkClass = isLightPage && hasBlur
+    ? "py-2 text-gray-800 rounded hover:bg-blue-50"
+    : "py-2 text-white rounded hover:bg-white/10";
 
   return (
     <>
@@ -125,14 +119,16 @@ export default function Navbar() {
           <div className="flex items-center space-x-6">
             <Link to="/" className={navLinkClass}>Inicio</Link>
             <Link to="/Catalogo" className={navLinkClass}>Productos</Link>
-            <Link to="/Empresa" className={navLinkClass}>Empresa</Link>
+            <Link to="/Noticias" className={navLinkClass}>Noticias</Link>
             <Link to="/Contacto" className={navLinkClass}>Contacto</Link>
             <button className="relative" onClick={() => setCartOpen(true)} aria-label="Carrito">
               <svg xmlns="http://www.w3.org/2000/svg" className={desktopCartIconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
               </svg>
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 badge badge-primary badge-sm">{totalItems}</span>
+                <span className="absolute -top-2 -right-2 flex min-w-[1.15rem] items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold leading-none text-white shadow-sm">
+                  {totalItems}
+                </span>
               )}
             </button>
           </div>
@@ -154,7 +150,9 @@ export default function Navbar() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.35 2.7A1 1 0 007 17h10a1 1 0 00.95-.68L21 13M7 13V6a1 1 0 011-1h5a1 1 0 011 1v7" />
               </svg>
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 badge badge-primary badge-sm">{totalItems}</span>
+                <span className="absolute -top-2 -right-2 flex min-w-[1.15rem] items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-bold leading-none text-white shadow-sm">
+                  {totalItems}
+                </span>
               )}
             </button>
           </div>
@@ -167,62 +165,62 @@ export default function Navbar() {
         >
           <Link to="/" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
           <Link to="/Catalogo" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Productos</Link>
-          <Link to="/Empresa" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Empresa</Link>
+          <Link to="/Noticias" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Noticias</Link>
           <Link to="/Contacto" className={mobileMenuLinkClass} onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
         </div>
       </nav>
       
       {/* Drawer lateral del carrito - FUERA del nav */}
       <div
-        className={`fixed top-0 right-0 h-full w-80 bg-neutral-900 shadow-2xl z-[9999] transition-transform duration-300 ${
+        className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[9999] transition-transform duration-300 ${
           cartOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        <div className="flex items-center justify-between p-4 border-b bg-neutral-900">
-          <h2 className="text-xl text-white font-bold ">Carrito</h2>
+        <div className="flex items-center justify-between p-4 border-b border-slate-200 bg-white">
+          <h2 className="text-xl text-slate-900 font-bold">Carrito</h2>
           <button
-            className="btn btn-ghost btn-sm"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800"
             onClick={() => setCartOpen(false)}
           >
             ✕
           </button>
         </div>
-        <div className="p-4 bg-neutral-900">
+        <div className="p-4 bg-white">
           {cart.length === 0 ? (
-            <p className="text-gray-500">No hay productos en el carrito.</p>
+            <p className="text-slate-500">No hay productos en el carrito.</p>
           ) : (
             <ul className="space-y-2">
               {cart.map((item) => (
                 <li
                   key={item.id}
-                  className="flex text-white items-center justify-between pb-1 border-b"
+                  className="flex text-slate-800 items-center justify-between pb-2 border-b border-slate-200"
                 >
                   <span>
                     {item.title || item.nombre}
                     {item.quantity > 1 && (
-                      <span className="ml-2 text-xs text-neutral-400">x{item.quantity}</span>
+                      <span className="ml-2 text-xs text-slate-500">x{item.quantity}</span>
                     )}
                   </span>
                   <div className="flex items-center gap-2">
                     <button
-                      className="btn btn-xs btn-outline"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-700 transition-colors hover:bg-slate-100"
                       onClick={() => removeFromCart(item.id)}
                       title="Quitar uno"
                     >
                       −
                     </button>
-                    <span className="px-2 text-lg font-bold text-white">{item.quantity}</span>
+                    <span className="px-1.5 text-base font-bold text-slate-900">{item.quantity}</span>
                     <button
-                      className="btn btn-xs btn-outline"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-300 text-slate-700 transition-colors hover:bg-slate-100"
                       onClick={() => addToCart({ ...item, quantity: 1 })}
                       title="Agregar uno"
                     >
                       +
                     </button>
-                    <span className="font-bold text-primary">${(item.price || item.precio) * item.quantity}</span>
+                    <span className="font-bold text-blue-700">${(item.price || item.precio) * item.quantity}</span>
                     {/* Botón para quitar todos */}
                     <button
-                      className="btn btn-xs btn-circle btn-error"
+                      className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-rose-50 text-rose-600 transition-colors hover:bg-rose-100"
                       onClick={() => {
                         removeAllFromCart(item.id);
                         addToast(`${item.title || item.nombre} eliminado del carrito`, 'info');
@@ -251,12 +249,12 @@ export default function Navbar() {
           )}
           {cart.length > 0 && (
             <>
-              <div className="flex items-center justify-between mt-4 mb-2 font-bold text-white">
+              <div className="flex items-center justify-between mt-4 mb-2 font-bold text-slate-900">
                 <span>Total:</span>
                 <span>${totalPrice}</span>
               </div>
               <a
-                className="w-full mt-2 btn btn-success"
+                className="inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 px-4 py-2.5 font-semibold text-white transition-all hover:from-blue-700 hover:to-cyan-700"
                 href={`https://wa.me/528119817118?text=${encodeURIComponent(
                   `¡Hola! Quiero comprar:\n\n${cart
                     .map((item, i) => `${i + 1}. ${(item.title || item.nombre)} x${item.quantity} - $${(item.price || item.precio) * item.quantity}`)
@@ -274,7 +272,7 @@ export default function Navbar() {
       {/* Fondo para cerrar el drawer */}
       {cartOpen && (
         <div
-          className="fixed h-screen inset-0 z-[9998] backdrop-blur-sm bg-black/30"
+          className="fixed h-screen inset-0 z-[9998] backdrop-blur-sm bg-slate-900/20"
           onClick={() => setCartOpen(false)}
         />
       )}

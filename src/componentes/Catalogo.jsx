@@ -13,6 +13,18 @@ const categories = [
   // Agrega más si tienes
 ];
 
+const moneyFormatter = new Intl.NumberFormat("es-MX", {
+  style: "currency",
+  currency: "MXN",
+  maximumFractionDigits: 0,
+});
+
+function formatPrice(value) {
+  const numeric = Number(value ?? 0);
+  if (!Number.isFinite(numeric)) return `$${value ?? 0}`;
+  return moneyFormatter.format(numeric);
+}
+
 export default function Catalogo() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -64,7 +76,7 @@ export default function Catalogo() {
   
 
       {/* Barra de búsqueda y filtros */}
-      <div className="w-full max-w-7xl mb-8">
+      <div className="w-full max-w-[92rem] mb-8">
         <div className="flex flex-col gap-4 md:flex-row md:gap-6">
           {/* Búsqueda */}
           <div className="flex-1">
@@ -120,8 +132,8 @@ export default function Catalogo() {
       </div>
 
       {/* Grid de productos */}
-      <div className="w-full max-w-7xl">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="w-full max-w-[92rem]">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
           {/* Skeletons mientras carga */}
           {loading && (
             <>
@@ -141,53 +153,60 @@ export default function Catalogo() {
               <p className="text-sm text-gray-500 mt-2">Intenta cambiar los filtros de búsqueda</p>
             </div>
           )}
-          {!loading && filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="group relative flex flex-col overflow-hidden bg-white border border-gray-200 rounded-xl hover:border-blue-500 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1"
-            >
-              {/* Imagen del producto */}
-              <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
-                <img
-                  src={product.image || product.imagen}
-                  alt={product.title || product.nombre}
-                  loading="lazy"
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                />
-                {/* Badge de precio */}
-                <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-1.5 rounded-full font-bold text-sm shadow-lg">
-                  ${product.price || product.precio}
+          {!loading && filteredProducts.map((product) => {
+            const title = product.title || product.nombre;
+            const description = product.description || product.descripcion;
+            const category = product.category;
+            const categoryLabel = categories.find((c) => c.value === category)?.label || category;
+            const price = product.price || product.precio;
+
+            return (
+              <article
+                key={product.id}
+                className="group relative mx-auto flex w-full max-w-[18rem] flex-col overflow-hidden rounded-md border border-slate-300 bg-white transition-all duration-200 hover:border-slate-400"
+              >
+                {/* Imagen del producto */}
+                <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-100">
+                  <img
+                    src={product.image || product.imagen}
+                    alt={title}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                  />
                 </div>
-                {/* Overlay en hover */}
-                <div className="absolute inset-0 bg-transparent group-hover:bg-black/10 transition-all duration-300"></div>
-              </div>
 
-              {/* Contenido del producto */}
-              <div className="flex flex-col flex-1 p-5 gap-3">
-                <h3 className="text-lg font-bold text-gray-900 line-clamp-1 group-hover:text-blue-600 transition-colors">
-                  {product.title || product.nombre}
-                </h3>
-                <p className="text-sm text-gray-600 line-clamp-2 flex-1">
-                  {product.description || product.descripcion}
-                </p>
-                
-                {/* Categoría badge */}
-                {product.category && product.category !== 'all' && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700 w-fit">
-                    {categories.find(c => c.value === product.category)?.label || product.category}
-                  </span>
-                )}
+                {/* Contenido del producto */}
+                <div className="flex flex-1 flex-col gap-2.5 p-3 sm:p-4">
+                  <h3 className="line-clamp-1 text-sm font-bold text-slate-900 sm:text-base lg:text-lg">
+                    {title}
+                  </h3>
 
-                {/* Botón */}
-                <Link
-                  to={`/producto/${product.id}`}
-                  className="mt-2 w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-all duration-300 text-center hover:shadow-lg hover:shadow-blue-500/30"
-                >
-                  Ver Detalles
-                </Link>
-              </div>
-            </div>
-          ))}
+                  <p className="line-clamp-2 flex-1 text-xs text-slate-600 sm:text-sm">
+                    {description}
+                  </p>
+
+                  <div className="mt-1 flex items-end justify-between gap-2">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-wide text-slate-400">Precio</p>
+                      <p className="text-base font-bold text-slate-900 sm:text-lg">{formatPrice(price)}</p>
+                    </div>
+                    {category && category !== "all" && (
+                      <span className="inline-flex items-center border border-slate-300 px-2 py-0.5 text-[11px] font-medium text-slate-600 sm:text-xs">
+                        {categoryLabel}
+                      </span>
+                    )}
+                  </div>
+
+                  <Link
+                    to={`/producto/${product.id}`}
+                    className="mt-1 inline-flex w-full items-center justify-center rounded-md border border-blue-700 bg-blue-700 px-3 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-blue-800"
+                  >
+                    Ver detalles
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

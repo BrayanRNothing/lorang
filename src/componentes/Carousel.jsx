@@ -10,19 +10,19 @@ export default function HomeSections() {
       
 
         {/* Sección 1 */}
-        <section className="relative right-0 items-center justify-center w-full min-h-screen text-white bg-neutral-950 snap-start ">
+        <section className="relative right-0 items-center justify-center w-full min-h-screen text-slate-900 bg-slate-50 snap-start">
          <Section1 />
         </section>
 
   
         {/* Sección 2 */}
-        <section className="relative items-center justify-center min-h-screen text-white bg-gradient-to-b from-green to-green">
+        <section className="relative items-center justify-center min-h-screen text-slate-900 bg-gradient-to-b from-white to-blue-50">
           <Section2 />
         </section>
 
   
         {/* Sección 3 */}
-        <section className="relative items-center justify-center min-h-screen text-black bg-gradient-to-b from-neutral-950 to-neutral-900">
+        <section className="relative items-center justify-center min-h-screen text-slate-900 bg-gradient-to-b from-slate-50 to-white">
           <Section3 />
         </section>
         {/* Footer */}

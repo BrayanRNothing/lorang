@@ -202,7 +202,7 @@ export default function ProductView() {
             <div className="hidden md:grid md:grid-cols-[1fr_auto] md:gap-4 md:h-full">
               {/* Grid de miniaturas al lateral izquierdo */}
               {images.length > 1 && (
-                <div className="grid grid-cols-1 gap-2 content-start w-[80px] overflow-y-auto pr-1">
+                <div className="grid grid-cols-1 gap-2 content-start w-[80px] overflow-y-auto overflow-x-visible pl-1 pr-2 py-1">
                   {images.slice(0, 8).map((src, idx) => (
                     <button
                       key={idx}

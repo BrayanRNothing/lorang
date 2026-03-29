@@ -8,7 +8,7 @@ import Catalogo from './componentes/Catalogo'
 import Navbar from './componentes/Navbar'
 import Contacto from './componentes/Contacto'
 import ProductView from './componentes/ProductView'
-import Empresa from './componentes/Empresa'
+import Noticias from './componentes/Noticias'
 import { CarProvider } from './componentes/CarContext'
 import { ToastProvider } from './componentes/Toast'
 import AdminProtegido from './componentes/Admin'
@@ -27,9 +27,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/Catalogo" element={<Catalogo />} />
+          <Route path="/Noticias" element={<Noticias />} />
           <Route path="/Contacto" element={<Contacto />} />
           <Route path="/producto/:id" element={<ProductView />} />
-          <Route path="/Empresa" element={<Empresa />} />
           <Route path="/admin" element={<AdminProtegido />} />
           {/* Aquí puedes agregar más rutas si es necesario */}
         </Routes>
