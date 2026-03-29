@@ -896,7 +896,6 @@ function NewsAdminForm({
                       />
                     )}
                     <h3 className="font-bold text-white text-sm mb-1 line-clamp-1">{post.titulo}</h3>
-                    <p className="text-xs text-gray-400 mb-2 line-clamp-2">{post.resumen}</p>
                     <div className="text-[11px] text-gray-500 mb-2">
                       <p className="capitalize">{post.tipo || inferNewsType(post)}</p>
                       {post.fechaEvento && <p>{post.fechaEvento}</p>}
