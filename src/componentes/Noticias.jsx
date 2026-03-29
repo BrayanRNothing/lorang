@@ -173,9 +173,13 @@ export default function Noticias() {
                   />
                 </div>
               ) : (
-                <div className="px-4 pt-4 sm:px-5 sm:pt-5">
-                  <div className="rounded-xl border border-slate-200 bg-gradient-to-r from-slate-50 to-blue-50 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-600">
-                    Actualizacion Lorang
+                <div className="relative h-48 w-full overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-cyan-800 text-white">
+                  <div className="absolute -right-10 -top-8 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
+                  <div className="absolute -left-10 bottom-0 h-28 w-28 rounded-full bg-cyan-300/30 blur-2xl" />
+                  <div className="relative flex h-full items-end p-4 sm:p-5">
+                    <span className="inline-flex w-fit items-center rounded-full border border-white/30 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/90">
+                      Actualizacion Lorang
+                    </span>
                   </div>
                 </div>
               )}

@@ -16,8 +16,8 @@ function inferNewsType(post) {
 }
 
 function validateNewsPayload(payload) {
-  if (!payload.titulo || !payload.resumen || !payload.contenido) {
-    return 'Completa titulo, resumen y contenido del post.';
+  if (!payload.titulo || !payload.contenido) {
+    return 'Completa titulo y contenido del post.';
   }
 
   if (payload.tipo === 'evento') {
@@ -528,7 +528,6 @@ function NewsAdminForm({
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState('');
   const [titulo, setTitulo] = useState('');
-  const [resumen, setResumen] = useState('');
   const [contenido, setContenido] = useState('');
   const [tipoPublicacion, setTipoPublicacion] = useState('evento');
   const [imagen, setImagen] = useState('');
@@ -542,7 +541,6 @@ function NewsAdminForm({
 
   const resetForm = () => {
     setTitulo('');
-    setResumen('');
     setContenido('');
     setTipoPublicacion('evento');
     setImagen('');
@@ -604,7 +602,6 @@ function NewsAdminForm({
     e.preventDefault();
     const payload = {
       titulo: titulo.trim(),
-      resumen: resumen.trim(),
       contenido: contenido.trim(),
       tipo: tipoPublicacion,
       imagen: imagen.trim(),
@@ -626,7 +623,6 @@ function NewsAdminForm({
     setEditMode(true);
     setEditId(post.id);
     setTitulo(post.titulo || '');
-    setResumen(post.resumen || '');
     setContenido(post.contenido || '');
     setTipoPublicacion(inferNewsType(post));
     setImagen(post.imagen || '');
@@ -640,7 +636,6 @@ function NewsAdminForm({
 
   const requiredChecklist = [
     { key: 'titulo', label: 'Titulo', done: titulo.trim().length > 0 },
-    { key: 'resumen', label: 'Resumen', done: resumen.trim().length > 0 },
     { key: 'contenido', label: 'Contenido', done: contenido.trim().length > 0 },
     { key: 'tipo', label: 'Tipo de publicacion', done: tipoPublicacion.trim().length > 0 },
     { key: 'fechaEvento', label: 'Fecha (solo evento)', done: !isEvent || fechaEvento.trim().length > 0 },
@@ -745,17 +740,6 @@ function NewsAdminForm({
                   maxLength={120}
                   placeholder="Ej: Sesion especial de domingo"
                   className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-gray-500"
-                />
-
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Resumen *</label>
-                <textarea
-                  value={resumen}
-                  onChange={(e) => setResumen(e.target.value)}
-                  required
-                  rows={2}
-                  maxLength={200}
-                  placeholder="Texto corto para la card"
-                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-gray-500 resize-none"
                 />
 
                 <label className="block text-sm font-semibold text-gray-300 mb-2">Contenido *</label>
